@@ -1,13 +1,16 @@
 import { Search } from 'lucide-react'
 
-export default function Hero({ query, onQueryChange }) {
+export default function Hero({ query, onQueryChange, onSubmit }) {
   return (
-    <section className="mx-auto max-w-5xl px-6 py-16 text-center sm:py-24">
+    <section id="home" className="mx-auto max-w-5xl scroll-mt-20 px-6 py-16 text-center sm:py-24">
       <h1 className="text-3xl font-medium sm:text-4xl">Find your way around FUTA</h1>
       <p className="mt-3 text-white/60">
         Search any building, hostel or office on campus and get there.
       </p>
-      <form onSubmit={(e) => e.preventDefault()} className="mx-auto mt-8 flex max-w-md items-center gap-2">
+      <form
+        onSubmit={(e) => { e.preventDefault(); onSubmit() }}
+        className="mx-auto mt-8 flex max-w-md items-center gap-2"
+      >
         <input
           type="text"
           value={query}

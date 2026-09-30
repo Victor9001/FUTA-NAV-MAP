@@ -2,7 +2,7 @@ const stack = ['React', 'Tailwind CSS', 'MapLibre GL', 'OpenFreeMap']
 
 export default function About() {
   return (
-    <section className="mx-auto max-w-5xl px-6 py-16 sm:py-24">
+    <section id="about" className="mx-auto max-w-5xl scroll-mt-20 px-6 py-16 sm:py-24">
       <div className="mx-auto max-w-2xl text-center">
         <h2 className="text-2xl font-medium sm:text-3xl">About FUTA Nav</h2>
         <p className="mt-4 text-white/60">

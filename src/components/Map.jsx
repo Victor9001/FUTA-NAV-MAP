@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import * as maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import maplibreWorkerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url'
+import lineSlice from '@turf/line-slice'
+import { point, lineString } from '@turf/helpers'
 
 maplibregl.setWorkerUrl(maplibreWorkerUrl)
 
@@ -20,16 +22,30 @@ const SATELLITE_STYLE = {
   layers: [{ id: 'satellite', type: 'raster', source: 'satellite' }],
 }
 const CENTER = [5.1388, 7.3037]
+const LABEL_MIN_ZOOM = 16
 
-function getUserLocation() {
+function watchUserLocation(onUpdate) {
   return new Promise((resolve, reject) => {
     if (!navigator.geolocation) {
       reject(new Error('Geolocation not supported'))
       return
     }
-    navigator.geolocation.getCurrentPosition(
-      (pos) => resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
-      (err) => reject(err),
+    let resolved = false
+    const watchId = navigator.geolocation.watchPosition(
+      (pos) => {
+        const loc = { lat: pos.coords.latitude, lng: pos.coords.longitude }
+        onUpdate(loc)
+        if (!resolved) {
+          resolved = true
+          resolve({ loc, watchId })
+        }
+      },
+      (err) => {
+        if (!resolved) {
+          resolved = true
+          reject(err)
+        }
+      },
       { enableHighAccuracy: true, timeout: 10000 }
     )
   })
@@ -65,18 +81,50 @@ function buildPopup(loc, onDirections) {
   return el
 }
 
-export default function MapView({ locations, query }) {
+function updateMarkerAppearance(map, markers, query) {
+  const q = query.trim().toLowerCase()
+  const zoomedIn = map.getZoom() >= LABEL_MIN_ZOOM
+  let firstMatch = null
+
+  markers.forEach(({ marker, dot, label, baseColor, searchText }) => {
+    const isMatch = q.length > 0 && searchText.includes(q)
+    dot.className = `h-4 w-4 rounded-full border-2 border-white shadow ${isMatch ? 'bg-green-400' : baseColor}`
+
+    if (isMatch) {
+      label.style.cssText =
+        'position:absolute;left:20px;top:50%;transform:translateY(-50%);display:block;font-weight:700;font-size:13px;color:#0f172a;background:#4ade80;padding:3px 9px;border-radius:6px;white-space:nowrap;box-shadow:0 1px 6px rgba(74,222,128,.5)'
+    } else if (zoomedIn) {
+      label.style.cssText =
+        'position:absolute;left:20px;top:50%;transform:translateY(-50%);display:block;font-weight:600;font-size:12px;color:#ffffff;background:rgba(15,10,30,.85);padding:2px 8px;border-radius:6px;white-space:nowrap;box-shadow:0 1px 4px rgba(0,0,0,.4)'
+    } else {
+      label.style.display = 'none'
+    }
+
+    if (isMatch && !firstMatch) firstMatch = marker
+  })
+
+  return firstMatch
+}
+
+export default function MapView({ locations, query, searchTrigger }) {
   const containerRef = useRef(null)
   const mapRef = useRef(null)
   const markersRef = useRef([])
   const userMarkerRef = useRef(null)
   const routeDataRef = useRef({ type: 'FeatureCollection', features: [] })
+  const showRouteRef = useRef(null)
+  const watchIdRef = useRef(null)
+  const fullRouteRef = useRef(null)
+  const destPointRef = useRef(null)
   const [view, setView] = useState('street')
+  const [loading, setLoading] = useState(true)
+  const [routeError, setRouteError] = useState(null)
 
   useEffect(() => {
     const map = new maplibregl.Map({ container: containerRef.current, style: STREET_STYLE, center: CENTER, zoom: 16 })
     map.addControl(new maplibregl.NavigationControl(), 'top-right')
     mapRef.current = map
+    map.on('load', () => setLoading(false))
 
     map.on('style.load', () => {
       if (!map.getSource('route')) {
@@ -92,7 +140,28 @@ export default function MapView({ locations, query }) {
     })
 
     async function showRoute(dest) {
-      const userLoc = await getUserLocation()
+      if (watchIdRef.current !== null) {
+        navigator.geolocation.clearWatch(watchIdRef.current)
+        watchIdRef.current = null
+      }
+
+      const { loc: userLoc, watchId } = await watchUserLocation((loc) => {
+        if (userMarkerRef.current) userMarkerRef.current.setLngLat([loc.lng, loc.lat])
+
+        if (fullRouteRef.current && destPointRef.current) {
+          try {
+            const line = lineString(fullRouteRef.current)
+            const sliced = lineSlice(point([loc.lng, loc.lat]), destPointRef.current, line)
+            const geojson = { type: 'FeatureCollection', features: [{ type: 'Feature', geometry: sliced.geometry, properties: {} }] }
+            routeDataRef.current = geojson
+            const source = map.getSource('route')
+            if (source) source.setData(geojson)
+          } catch (err) {
+            console.error('Route trim failed:', err)
+          }
+        }
+      })
+      watchIdRef.current = watchId
 
       if (userMarkerRef.current) {
         userMarkerRef.current.setLngLat([userLoc.lng, userLoc.lat])
@@ -107,16 +176,21 @@ export default function MapView({ locations, query }) {
       const data = await res.json()
       const route = data.routes && data.routes[0]
       if (!route) throw new Error('No route found')
+      fullRouteRef.current = route.geometry.coordinates
+      destPointRef.current = point([dest.lng, dest.lat])
+
       const geojson = { type: 'FeatureCollection', features: [{ type: 'Feature', geometry: route.geometry, properties: {} }] }
       routeDataRef.current = geojson
       const source = map.getSource('route')
       if (source) source.setData(geojson)
     }
 
+    showRouteRef.current = showRoute
+
     markersRef.current = locations.map((loc) => {
       const baseColor = loc.verified ? 'bg-amber-400' : 'bg-slate-400'
       const wrap = document.createElement('div')
-      wrap.style.cssText = 'position:relative;width:16px;height:16px'
+      wrap.style.cssText = 'width:16px;height:16px'
 
       const dot = document.createElement('div')
       dot.className = `h-4 w-4 rounded-full border-2 border-white shadow ${baseColor}`
@@ -124,8 +198,7 @@ export default function MapView({ locations, query }) {
 
       const label = document.createElement('span')
       label.textContent = loc.name
-      label.style.cssText =
-        'position:absolute;left:20px;top:50%;transform:translateY(-50%);display:none;font-weight:700;color:#4ade80;font-size:12px;white-space:nowrap;text-shadow:0 1px 3px rgba(0,0,0,.9)'
+      label.style.display = 'none'
 
       wrap.append(dot, label)
 
@@ -137,22 +210,35 @@ export default function MapView({ locations, query }) {
       return { marker, dot, label, baseColor, searchText }
     })
 
-    return () => map.remove()
+    updateMarkerAppearance(map, markersRef.current, '')
+    map.on('zoomend', () => updateMarkerAppearance(map, markersRef.current, ''))
+
+    return () => {
+      if (watchIdRef.current !== null) navigator.geolocation.clearWatch(watchIdRef.current)
+      map.remove()
+    }
   }, [locations])
 
   useEffect(() => {
-    const q = query.trim().toLowerCase()
-    let firstMatch = null
-    markersRef.current.forEach(({ marker, dot, label, baseColor, searchText }) => {
-      const isMatch = q.length > 0 && searchText.includes(q)
-      dot.className = `h-4 w-4 rounded-full border-2 border-white shadow ${isMatch ? 'bg-green-400' : baseColor}`
-      label.style.display = isMatch ? 'block' : 'none'
-      if (isMatch && !firstMatch) firstMatch = marker
-    })
-    if (firstMatch && mapRef.current) {
-      mapRef.current.flyTo({ center: firstMatch.getLngLat(), zoom: 17 })
-    }
+    if (!mapRef.current) return
+    const match = updateMarkerAppearance(mapRef.current, markersRef.current, query)
+    if (match) mapRef.current.flyTo({ center: match.getLngLat(), zoom: 17 })
   }, [query])
+
+  useEffect(() => {
+    if (searchTrigger === 0) return
+    const q = query.trim().toLowerCase()
+    if (!q) return
+    const dest = locations.find((loc) => [loc.name, ...(loc.aliases || [])].join(' ').toLowerCase().includes(q))
+    if (dest && showRouteRef.current) {
+      setRouteError(null)
+      showRouteRef.current(dest).catch((err) => {
+        console.error('Directions request failed:', err)
+        setRouteError('Could not get a walking route from your current location to this building.')
+        setTimeout(() => setRouteError(null), 6000)
+      })
+    }
+  }, [searchTrigger])
 
   function toggleView(next) {
     setView(next)
@@ -162,6 +248,17 @@ export default function MapView({ locations, query }) {
   return (
     <div className="relative h-[480px] w-full overflow-hidden rounded-xl border border-white/10">
       <div ref={containerRef} className="h-full w-full" />
+      {loading && (
+        <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-ink/90">
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-white/20 border-t-futa-400" />
+          <span className="text-xs text-white/50">Loading map…</span>
+        </div>
+      )}
+      {routeError && (
+        <div className="absolute bottom-3 left-3 right-3 z-20 rounded-lg border border-red-400/30 bg-red-950/90 px-3 py-2 text-xs text-red-200">
+          {routeError}
+        </div>
+      )}
       <div className="absolute left-3 top-3 z-10 flex overflow-hidden rounded-lg border border-white/10 bg-ink/90 text-xs">
         <button type="button" onClick={() => toggleView('street')} className={`px-3 py-1.5 ${view === 'street' ? 'bg-futa-400/20 text-futa-400' : 'text-white/60'}`}>Street</button>
         <button type="button" onClick={() => toggleView('satellite')} className={`px-3 py-1.5 ${view === 'satellite' ? 'bg-futa-400/20 text-futa-400' : 'text-white/60'}`}>Satellite</button>

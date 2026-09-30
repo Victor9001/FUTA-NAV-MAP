@@ -9,6 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@turf/helpers": "^7.4.0",
+    "@turf/line-slice": "^7.4.0",
     "lucide-react": "^1.48.0",
     "maplibre-gl": "^6.11.2",
     "react": "^19.2.8",
