@@ -4,6 +4,7 @@ import 'maplibre-gl/dist/maplibre-gl.css'
 import maplibreWorkerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url'
 import lineSlice from '@turf/line-slice'
 import { point, lineString } from '@turf/helpers'
+import { slugify } from '../utils/slug'
 
 maplibregl.setWorkerUrl(maplibreWorkerUrl)
 
@@ -24,33 +25,6 @@ const SATELLITE_STYLE = {
 const CENTER = [5.1388, 7.3037]
 const LABEL_MIN_ZOOM = 16
 
-function watchUserLocation(onUpdate) {
-  return new Promise((resolve, reject) => {
-    if (!navigator.geolocation) {
-      reject(new Error('Geolocation not supported'))
-      return
-    }
-    let resolved = false
-    const watchId = navigator.geolocation.watchPosition(
-      (pos) => {
-        const loc = { lat: pos.coords.latitude, lng: pos.coords.longitude }
-        onUpdate(loc)
-        if (!resolved) {
-          resolved = true
-          resolve({ loc, watchId })
-        }
-      },
-      (err) => {
-        if (!resolved) {
-          resolved = true
-          reject(err)
-        }
-      },
-      { enableHighAccuracy: true, timeout: 10000 }
-    )
-  })
-}
-
 function buildPopup(loc, onDirections) {
   const el = document.createElement('div')
   const cat = document.createElement('div')
@@ -63,10 +37,13 @@ function buildPopup(loc, onDirections) {
   desc.textContent = loc.desc
   el.append(cat, title, desc)
 
+  const row = document.createElement('div')
+  row.style.cssText = 'margin-top:8px;display:flex;gap:6px'
+
   const btn = document.createElement('button')
   btn.textContent = 'Directions from my location'
   btn.style.cssText =
-    'margin-top:8px;font-size:12px;color:#60a5fa;background:rgba(96,165,250,.15);border:none;padding:6px 10px;border-radius:6px;cursor:pointer'
+    'font-size:12px;color:#60a5fa;background:rgba(96,165,250,.15);border:none;padding:6px 10px;border-radius:6px;cursor:pointer'
   btn.addEventListener('click', async () => {
     btn.textContent = 'Loading...'
     try {
@@ -77,16 +54,37 @@ function buildPopup(loc, onDirections) {
       setTimeout(() => { btn.textContent = 'Directions from my location' }, 2000)
     }
   })
-  el.appendChild(btn)
+
+  const shareBtn = document.createElement('button')
+  shareBtn.textContent = 'Share'
+  shareBtn.style.cssText =
+    'font-size:12px;color:#9b6cf0;background:rgba(155,108,240,.15);border:none;padding:6px 10px;border-radius:6px;cursor:pointer'
+  shareBtn.addEventListener('click', async () => {
+    const url = `${window.location.origin}${window.location.pathname}?to=${slugify(loc.name)}`
+    try {
+      await navigator.clipboard.writeText(url)
+      shareBtn.textContent = 'Copied!'
+    } catch (err) {
+      shareBtn.textContent = 'Copy failed'
+    }
+    setTimeout(() => { shareBtn.textContent = 'Share' }, 2000)
+  })
+
+  row.append(btn, shareBtn)
+  el.appendChild(row)
   return el
 }
 
-function updateMarkerAppearance(map, markers, query) {
+function updateMarkerAppearance(map, markers, query, activeCategory) {
   const q = query.trim().toLowerCase()
   const zoomedIn = map.getZoom() >= LABEL_MIN_ZOOM
   let firstMatch = null
 
-  markers.forEach(({ marker, dot, label, baseColor, searchText }) => {
+  markers.forEach(({ marker, dot, label, baseColor, searchText, category }) => {
+    const categoryOk = activeCategory === 'All' || category === activeCategory
+    marker.getElement().style.display = categoryOk ? '' : 'none'
+    if (!categoryOk) return
+
     const isMatch = q.length > 0 && searchText.includes(q)
     dot.className = `h-4 w-4 rounded-full border-2 border-white shadow ${isMatch ? 'bg-green-400' : baseColor}`
 
@@ -106,11 +104,12 @@ function updateMarkerAppearance(map, markers, query) {
   return firstMatch
 }
 
-export default function MapView({ locations, query, searchTrigger }) {
+export default function MapView({ locations, query, searchTrigger, sharedLocation }) {
   const containerRef = useRef(null)
   const mapRef = useRef(null)
   const markersRef = useRef([])
   const userMarkerRef = useRef(null)
+  const userLocationRef = useRef(null)
   const routeDataRef = useRef({ type: 'FeatureCollection', features: [] })
   const showRouteRef = useRef(null)
   const watchIdRef = useRef(null)
@@ -119,6 +118,10 @@ export default function MapView({ locations, query, searchTrigger }) {
   const [view, setView] = useState('street')
   const [loading, setLoading] = useState(true)
   const [routeError, setRouteError] = useState(null)
+  const [activeCategory, setActiveCategory] = useState('All')
+  const activeCategoryRef = useRef('All')
+  const sharedMarkerRef = useRef(null)
+  const [shareLabel, setShareLabel] = useState('Share my location')
 
   useEffect(() => {
     const map = new maplibregl.Map({ container: containerRef.current, style: STREET_STYLE, center: CENTER, zoom: 16 })
@@ -139,37 +142,61 @@ export default function MapView({ locations, query, searchTrigger }) {
       }
     })
 
-    async function showRoute(dest) {
-      if (watchIdRef.current !== null) {
-        navigator.geolocation.clearWatch(watchIdRef.current)
-        watchIdRef.current = null
-      }
+    // Start tracking the visitor's location as soon as the map loads — shows a
+    // persistent purple "you are here" dot, independent of searching/directions.
+    let gotFirstFix = false
+    let settleFirstFix
+    const firstFixPromise = new Promise((resolve, reject) => { settleFirstFix = { resolve, reject } })
 
-      const { loc: userLoc, watchId } = await watchUserLocation((loc) => {
-        if (userMarkerRef.current) userMarkerRef.current.setLngLat([loc.lng, loc.lat])
+    if (navigator.geolocation) {
+      const watchId = navigator.geolocation.watchPosition(
+        (pos) => {
+          const loc = { lat: pos.coords.latitude, lng: pos.coords.longitude }
+          userLocationRef.current = loc
 
-        if (fullRouteRef.current && destPointRef.current) {
-          try {
-            const line = lineString(fullRouteRef.current)
-            const sliced = lineSlice(point([loc.lng, loc.lat]), destPointRef.current, line)
-            const geojson = { type: 'FeatureCollection', features: [{ type: 'Feature', geometry: sliced.geometry, properties: {} }] }
-            routeDataRef.current = geojson
-            const source = map.getSource('route')
-            if (source) source.setData(geojson)
-          } catch (err) {
-            console.error('Route trim failed:', err)
+          if (userMarkerRef.current) {
+            userMarkerRef.current.setLngLat([loc.lng, loc.lat])
+          } else {
+            const el = document.createElement('div')
+            el.className = 'h-4 w-4 rounded-full border-2 border-white shadow bg-futa-400'
+            userMarkerRef.current = new maplibregl.Marker({ element: el }).setLngLat([loc.lng, loc.lat]).addTo(map)
           }
-        }
-      })
-      watchIdRef.current = watchId
 
-      if (userMarkerRef.current) {
-        userMarkerRef.current.setLngLat([userLoc.lng, userLoc.lat])
-      } else {
-        const el = document.createElement('div')
-        el.className = 'h-4 w-4 rounded-full border-2 border-white shadow bg-blue-400'
-        userMarkerRef.current = new maplibregl.Marker({ element: el }).setLngLat([userLoc.lng, userLoc.lat]).addTo(map)
-      }
+          if (fullRouteRef.current && destPointRef.current) {
+            try {
+              const line = lineString(fullRouteRef.current)
+              const sliced = lineSlice(point([loc.lng, loc.lat]), destPointRef.current, line)
+              const geojson = { type: 'FeatureCollection', features: [{ type: 'Feature', geometry: sliced.geometry, properties: {} }] }
+              routeDataRef.current = geojson
+              const source = map.getSource('route')
+              if (source) source.setData(geojson)
+            } catch (err) {
+              console.error('Route trim failed:', err)
+            }
+          }
+
+          if (!gotFirstFix) {
+            gotFirstFix = true
+            map.flyTo({ center: [loc.lng, loc.lat], zoom: 17 })
+            settleFirstFix.resolve(loc)
+          }
+        },
+        (err) => {
+          console.error('Geolocation failed:', err)
+          if (!gotFirstFix) {
+            gotFirstFix = true
+            settleFirstFix.reject(err)
+          }
+        },
+        { enableHighAccuracy: true, timeout: 10000 }
+      )
+      watchIdRef.current = watchId
+    } else {
+      settleFirstFix.reject(new Error('Geolocation not supported'))
+    }
+
+    async function showRoute(dest) {
+      const userLoc = userLocationRef.current || (await firstFixPromise)
 
       const url = `https://router.project-osrm.org/route/v1/foot/${userLoc.lng},${userLoc.lat};${dest.lng},${dest.lat}?overview=full&geometries=geojson`
       const res = await fetch(url)
@@ -207,11 +234,11 @@ export default function MapView({ locations, query, searchTrigger }) {
         .setPopup(new maplibregl.Popup({ offset: 12 }).setDOMContent(buildPopup(loc, showRoute)))
         .addTo(map)
       const searchText = [loc.name, ...(loc.aliases || [])].join(' ').toLowerCase()
-      return { marker, dot, label, baseColor, searchText }
+      return { marker, dot, label, baseColor, searchText, category: loc.category }
     })
 
-    updateMarkerAppearance(map, markersRef.current, '')
-    map.on('zoomend', () => updateMarkerAppearance(map, markersRef.current, ''))
+    updateMarkerAppearance(map, markersRef.current, '', activeCategoryRef.current)
+    map.on('zoomend', () => updateMarkerAppearance(map, markersRef.current, '', activeCategoryRef.current))
 
     return () => {
       if (watchIdRef.current !== null) navigator.geolocation.clearWatch(watchIdRef.current)
@@ -220,10 +247,46 @@ export default function MapView({ locations, query, searchTrigger }) {
   }, [locations])
 
   useEffect(() => {
+    activeCategoryRef.current = activeCategory
     if (!mapRef.current) return
-    const match = updateMarkerAppearance(mapRef.current, markersRef.current, query)
+    const match = updateMarkerAppearance(mapRef.current, markersRef.current, query, activeCategory)
     if (match) mapRef.current.flyTo({ center: match.getLngLat(), zoom: 17 })
-  }, [query])
+  }, [query, activeCategory])
+
+  useEffect(() => {
+    if (!sharedLocation || !mapRef.current || !showRouteRef.current) return
+
+    const el = document.createElement('div')
+    el.className = 'h-4 w-4 rounded-full border-2 border-white shadow bg-pink-400'
+    if (sharedMarkerRef.current) sharedMarkerRef.current.remove()
+    sharedMarkerRef.current = new maplibregl.Marker({ element: el })
+      .setLngLat([sharedLocation.lng, sharedLocation.lat])
+      .setPopup(new maplibregl.Popup({ offset: 12 }).setText('Shared location'))
+      .addTo(mapRef.current)
+
+    mapRef.current.flyTo({ center: [sharedLocation.lng, sharedLocation.lat], zoom: 17 })
+
+    setRouteError(null)
+    showRouteRef.current({ lat: sharedLocation.lat, lng: sharedLocation.lng, name: 'Shared location' }).catch((err) => {
+      console.error('Directions request failed:', err)
+      setRouteError('Could not get a walking route to the shared location.')
+      setTimeout(() => setRouteError(null), 6000)
+    })
+  }, [sharedLocation])
+
+  function shareMyLocation() {
+    const loc = userLocationRef.current
+    if (!loc) {
+      setShareLabel('Location not ready yet')
+      setTimeout(() => setShareLabel('Share my location'), 2000)
+      return
+    }
+    const url = `${window.location.origin}${window.location.pathname}?loc=${loc.lat},${loc.lng}`
+    navigator.clipboard.writeText(url)
+      .then(() => setShareLabel('Copied!'))
+      .catch(() => setShareLabel('Copy failed'))
+    setTimeout(() => setShareLabel('Share my location'), 2000)
+  }
 
   useEffect(() => {
     if (searchTrigger === 0) return
@@ -239,6 +302,8 @@ export default function MapView({ locations, query, searchTrigger }) {
       })
     }
   }, [searchTrigger])
+
+  const categories = ['All', ...new Set(locations.map((l) => l.category))]
 
   function toggleView(next) {
     setView(next)
@@ -262,6 +327,29 @@ export default function MapView({ locations, query, searchTrigger }) {
       <div className="absolute left-3 top-3 z-10 flex overflow-hidden rounded-lg border border-white/10 bg-ink/90 text-xs">
         <button type="button" onClick={() => toggleView('street')} className={`px-3 py-1.5 ${view === 'street' ? 'bg-futa-400/20 text-futa-400' : 'text-white/60'}`}>Street</button>
         <button type="button" onClick={() => toggleView('satellite')} className={`px-3 py-1.5 ${view === 'satellite' ? 'bg-futa-400/20 text-futa-400' : 'text-white/60'}`}>Satellite</button>
+      </div>
+      <button
+        type="button"
+        onClick={shareMyLocation}
+        className="absolute left-3 top-14 z-10 rounded-lg border border-white/10 bg-ink/90 px-3 py-1.5 text-xs text-futa-400"
+      >
+        {shareLabel}
+      </button>
+      <div className="absolute right-3 top-3 z-10 flex flex-wrap justify-end gap-1.5 max-w-[60%]">
+        {categories.map((cat) => (
+          <button
+            key={cat}
+            type="button"
+            onClick={() => setActiveCategory(cat)}
+            className={`rounded-full border px-2.5 py-1 text-[11px] ${
+              activeCategory === cat
+                ? 'border-futa-400 bg-futa-400/20 text-futa-400'
+                : 'border-white/10 bg-ink/90 text-white/60'
+            }`}
+          >
+            {cat}
+          </button>
+        ))}
       </div>
     </div>
   )

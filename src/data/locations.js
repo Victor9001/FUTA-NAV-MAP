@@ -1,11 +1,11 @@
 // Add real locations here as you collect coordinates (Google Maps: right-click a spot).
 export const LOCATIONS = [
-  { name: "FUTA Main Gate",
-    lat: 7.3037,
-    lng: 5.1388,
+  { name: "South Gate",
+    lat: 7.293023,
+    lng: 5.149893,
     category: "Landmark",
     verified: true,
-    aliases: ["Main Gate", "FUTA Gate"],
+    aliases: ["South Entrance", " SouthCheck Post", "FUTA South Gate"],
     desc: "Verified campus reference point." },
 
   { name: "Obafemi Awolowo Auditorium",
@@ -65,7 +65,7 @@ export const LOCATIONS = [
     name: "LT 2 catering service" ,
     lat: 7.302595,
     lng: 5.135086,
-    category: "shopping",
+    category: "Shopping",
     verified: true,
     aliases: ["LT 2 restaurant", ], 
     desc: "Catering service for Lecture Theatre 2." 
@@ -159,5 +159,487 @@ export const LOCATIONS = [
     verified: true,
     aliases: ["Printing", "catering" ], 
     desc: "FUTA Shopping Complex." 
+  },
+
+  {
+    name: "Shuttle Park" ,
+    lat: 7.292949,
+    lng: 5.149587,
+    category: "Landmark",
+    verified: true,
+    aliases: ["Southgate Shuttle park" ], 
+    desc: "shuttle part at southgate." 
+  },
+
+  {
+    name: "Akindeko Hostel" ,
+    lat: 7.294497,
+    lng: 5.148380,
+    category: "Hostel",
+    verified: true,
+    aliases: ["Akindeko Boys Hostel" ], 
+    desc: "Akindeko Boys Hostel." 
+  },
+
+  {
+    name: "poultry farm" ,
+    lat: 7.293007,
+    lng: 5.148240,
+    category: "poultry",
+    verified: true,
+    aliases: ["poultry farm" ], 
+    desc: "Poultry farm." 
+  },
+
+  {
+    name: "Printing Press" ,
+    lat: 7.294636,
+    lng: 5.149276,
+    category: "Printing",
+    verified: true,
+    aliases: ["Printing Press" ], 
+    desc: "Printing Press." 
+  },
+
+  {
+    name: "University Mini Mosque" ,
+    lat: 7.295130,
+    lng: 5.148873,
+    category: "Religious",
+    verified: true,
+    aliases: ["Southgate Mosque" ], 
+    desc: "University Mini Mosque." 
+  },
+
+  {
+    name: "Fishery farm" ,
+    lat: 7.294910,
+    lng: 5.146260,
+    category: "Agricultural",
+    verified: true,
+    aliases: ["FAT farm" ], 
+    desc: "Fishery farm." 
+  },
+
+  {
+    name: "Physics lab" ,
+    lat: 7.295794,
+    lng: 5.148626,
+    category: "Academic",
+    verified: true,
+    aliases: ["Physics department", "Physics lab 2", "Physics lab ii" ], 
+    desc: "Physics Department." 
+  },
+
+  {
+    name: "Physics department" ,
+    lat: 7.295778,
+    lng: 5.148470,
+    category: "Academic",
+    verified: true,
+    aliases: ["Physics lab" ], 
+    desc: "Physics Department." 
+  },
+
+  {
+    name: "Microbiology lab" ,
+    lat: 7.295740,
+    lng: 5.148180,
+    category: "Academic",
+    verified: true,
+    aliases: ["Microbiology department" ], 
+    desc: "Microbiology Lab." 
+  },
+
+  {
+    name: "SBMS Southgate" ,
+    lat: 7.295962,
+    lng: 5.149025,
+    category: "Academic",
+    verified: true,
+    aliases: ["old SBMS" ], 
+    desc: "SBMS Southgate." 
+  },
+
+  {
+    name: "Chemistry lab Research" ,
+    lat: 7.295825,
+    lng: 5.149232,
+    category: "Academic",
+    verified: true,
+    aliases: ["Chemistry department Southgate" ], 
+    desc: "Chemistry Lab Research." 
+  },
+
+  {
+    name: "IDD Southgate" ,
+    lat: 7.296868,
+    lng: 5.149210,
+    category: "Academic",
+    verified: true,
+    aliases: ["IDD Studio", "Industrial design studio" ], 
+    desc: "IDD Southgate." 
+  },
+
+  {
+    name: "Great Hall" ,
+    lat: 7.296041,
+    lng: 5.146839,
+    category: "Academic",
+    verified: true,
+    aliases: ["Great Hall" ], 
+    desc: "Great Hall." 
+  },
+
+
+
+  {
+    name: "FUTA Staff School" ,
+    lat: 7.296102,
+    lng: 5.147582,
+    category: "Educational",
+    verified: true,
+    aliases: ["FUTA Staff School" ], 
+    desc: "FUTA Staff School." 
+  },
+
+  {
+    name: "Health Centre" ,
+    lat: 7.297991,
+    lng: 5.145133,
+    category: "Health",
+    verified: true,
+    aliases: ["Health Clinic","Hospital" ], 
+    desc: "Health Centre." 
+  },
+
+  {
+    name: "Old Postgraduate Hostel" ,
+    lat: 7.297821,
+    lng: 5.146206,
+    category: "Hostel",
+    verified: true,
+    aliases: ["OLD POSTGRADUATE BUILDING","Old Postgraduate Building","postgraduate southgate" ], 
+    desc: "Old Postgraduate Building." 
+  },
+
+  {
+    name: "Obakekere CBT Center" ,
+    lat: 7.295825,
+    lng: 5.146502,
+    category: "Educational",
+    verified: true,
+    aliases: ["Obakekere CBT Centre southgate","Electronic Test Centre","ETC" ], 
+    desc: "Obakekere CBT Center." 
+  },
+
+  {
+    name: "Feed Mill" ,
+    lat: 7.298720,
+    lng: 5.144925,
+    category: "Agricultural",
+    verified: true,
+    aliases: ["Feed Mill" ], 
+    desc: "Feed Mill." 
+  },
+
+  {
+    name: "APH Farm" ,
+    lat: 7.300415,
+    lng: 5.144670,
+    category: "CSP FARM ALLOCATION",
+    verified: true,
+    aliases: ["aph farm" ], 
+    desc: "APH Farm." 
+  },
+
+  {
+    name: "Jibowu Annex 2" ,
+    lat: 7.304999,
+    lng: 5.141776,
+    category: "Hostel",
+    verified: true,
+    aliases: ["Lady Deborah Jibowu" ], 
+    desc: "Jibowu Annex 2." 
+  },
+
+  {
+    name: "Aluta Market" ,
+    lat: 7.303185,
+    lng: 5.140893,
+    category: "Commercial",
+    verified: true,
+    aliases: ["Aluta Market" ], 
+    desc: "Aluta Market." 
+  },
+
+  {
+    name: "Gaming center" ,
+    lat: 7.301673,
+    lng: 5.141915,
+    category: "Shopping",
+    verified: true,
+    aliases: ["Gaming Center Aluta" ], 
+    desc: "Gaming center." 
+  },
+
+  {
+    name: "Sweet savour" ,
+    lat: 7.304645,
+    lng: 5.139672,
+    category: "Food",
+    verified: true,
+    aliases: ["Sweet Savour" ], 
+    desc: "Sweet savour." 
+  },
+
+  {
+    name: "FUTA GYM" ,
+    lat: 7.304155,
+    lng: 5.139446,
+    category: "Sports",
+    verified: true,
+    aliases: ["FUTA Gym","Chess board","Table Tennis" ], 
+    desc: "FUTA GYM." 
+  },
+
+  {
+    name: "Northgate" ,
+    lat: 7.306487,
+    lng: 5.139602,
+    category: "Landmark",
+    verified: true,
+    aliases: ["Northgate check post","Northgate Entry point" ], 
+    desc: "North-gate." 
+  },
+
+  {
+    name: "GAS Station" ,
+    lat: 7.306405,
+    lng: 5.139264,
+    category: "Commercial",
+    verified: true,
+    aliases: ["GAS Station northgate" ], 
+    desc: "GAS Station." 
+  },
+
+  {
+    name: "Mummy Biola Food" ,
+    lat: 7.306631,
+    lng: 5.138642,
+    category: "Food",
+    verified: true,
+    aliases: ["Mummy Biola northgate" ], 
+    desc: "Mummy Biola Food." 
+  },
+
+  {
+    name: "Basketball Court" ,
+    lat: 7.305928,
+    lng: 5.139060,
+    category: "Sports",
+    verified: true,
+    aliases: ["Basketball Court northgate", "Volleyball Court northgate" ], 
+    desc: "Basketball Court." 
+  },
+
+  {
+    name: "FUTA Indoor game hall" ,
+    lat: 7.305847,
+    lng: 5.138435,
+    category: "Sports",
+    verified: true,
+    aliases: ["Man o war training", "Indoor basketball" ], 
+    desc: "FUTA Indoor Game Hall." 
+  },
+
+  {
+    name: "Futa mini pitch" ,
+    lat: 7.304651,
+    lng: 5.138014,
+    category: "Sports",
+    verified: true,
+    aliases: ["Futa mini pitch","skating" ], 
+    desc: "Futa mini pitch." 
+  },
+
+  {
+    name: "Futa main pitch" ,
+    lat: 7.305516,
+    lng: 5.136812,
+    category: "Sport",
+    verified: true,
+    aliases: ["Taekwando team" ], 
+    desc: "FUTA MAIN PITCH." 
+  },
+
+  {
+    name: "Lawn Tennis" ,
+    lat: 7.306335,
+    lng: 5.136592,
+    category: "Sport",
+    verified: true,
+    aliases: ["lawn tennis" ], 
+    desc: "Lawn Tennis Court." 
+  },
+
+  {
+    name: "Central Mosque" ,
+    lat: 7.307612,
+    lng: 5.133079,
+    category: "Religion",
+    verified: true,
+    aliases: ["Central mosque northgate" ], 
+    desc: "Central mosque northgate." 
+  },
+
+  {
+    name: "Centre for ENT" ,
+    lat: 7.307394,
+    lng: 5.134527,
+    category: "Admin",
+    verified: true,
+    aliases: ["ENT Exhibition Submit", "E.N.T Exhibition" ], 
+    desc: "Centre for Entrepreneurship Program." 
+  },
+
+  {
+    name: "" ,
+    lat: 7.3,
+    lng: 5.1,
+    category: "",
+    verified: true,
+    aliases: ["" ], 
+    desc: "." 
+  },
+
+  {
+    name: "" ,
+    lat: 7.3,
+    lng: 5.1,
+    category: "",
+    verified: true,
+    aliases: ["" ], 
+    desc: "." 
+  },
+
+  {
+    name: "" ,
+    lat: 7.3,
+    lng: 5.1,
+    category: "",
+    verified: true,
+    aliases: ["" ], 
+    desc: "." 
+  },
+
+  {
+    name: "" ,
+    lat: 7.3,
+    lng: 5.1,
+    category: "",
+    verified: true,
+    aliases: ["" ], 
+    desc: "." 
+  },
+
+  {
+    name: "" ,
+    lat: 7.3,
+    lng: 5.1,
+    category: "",
+    verified: true,
+    aliases: ["" ], 
+    desc: "." 
+  },
+
+  {
+    name: "" ,
+    lat: 7.3,
+    lng: 5.1,
+    category: "",
+    verified: true,
+    aliases: ["" ], 
+    desc: "." 
+  },
+
+  {
+    name: "" ,
+    lat: 7.3,
+    lng: 5.1,
+    category: "",
+    verified: true,
+    aliases: ["" ], 
+    desc: "." 
+  },
+
+  {
+    name: "" ,
+    lat: 7.3,
+    lng: 5.1,
+    category: "",
+    verified: true,
+    aliases: ["" ], 
+    desc: "." 
+  },
+
+  {
+    name: "" ,
+    lat: 7.3,
+    lng: 5.1,
+    category: "",
+    verified: true,
+    aliases: ["" ], 
+    desc: "." 
+  },
+
+  {
+    name: "" ,
+    lat: 7.3,
+    lng: 5.1,
+    category: "",
+    verified: true,
+    aliases: ["" ], 
+    desc: "." 
+  },
+
+  {
+    name: "" ,
+    lat: 7.3,
+    lng: 5.1,
+    category: "",
+    verified: true,
+    aliases: ["" ], 
+    desc: "." 
+  },
+
+  {
+    name: "" ,
+    lat: 7.3,
+    lng: 5.1,
+    category: "",
+    verified: true,
+    aliases: ["" ], 
+    desc: "." 
+  },
+
+  {
+    name: "" ,
+    lat: 7.3,
+    lng: 5.1,
+    category: "",
+    verified: true,
+    aliases: ["" ], 
+    desc: "." 
+  },
+
+  {
+    name: "" ,
+    lat: 7.3,
+    lng: 5.1,
+    category: "",
+    verified: true,
+    aliases: ["" ], 
+    desc: "." 
   },
 ]
