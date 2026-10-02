@@ -65,7 +65,7 @@ export const LOCATIONS = [
     name: "LT 2 catering service" ,
     lat: 7.302595,
     lng: 5.135086,
-    category: "Shopping",
+    category: "Commercial",
     verified: true,
     aliases: ["LT 2 restaurant", ], 
     desc: "Catering service for Lecture Theatre 2." 
@@ -85,7 +85,7 @@ export const LOCATIONS = [
     name: "Student Union Building" ,
     lat: 7.304418,
     lng: 5.139575,
-    category: "Political",
+    category: "Admin",
     verified: true,
     aliases: ["Student Union", "SU Building", "SUB"], 
     desc: "Student Union Building for student activities." 
@@ -145,7 +145,7 @@ export const LOCATIONS = [
     name: "CBT CENTER" ,
     lat: 7.305323,
     lng: 5.133754,
-    category: "ICT",
+    category: "Educational",
     verified: true,
     aliases: ["jamb center", "CSC Practical class", "post-UTME Exam" ], 
     desc: "CBT Center for 100L,200L Examination and jamb Exam." 
@@ -155,7 +155,7 @@ export const LOCATIONS = [
     name: "Futa Shopping Complex" ,
     lat: 7.301328,
     lng: 5.139988,
-    category: "Shopping",
+    category: "Commercial",
     verified: true,
     aliases: ["Printing", "catering" ], 
     desc: "FUTA Shopping Complex." 
@@ -185,7 +185,7 @@ export const LOCATIONS = [
     name: "poultry farm" ,
     lat: 7.293007,
     lng: 5.148240,
-    category: "poultry",
+    category: "Agricultural",
     verified: true,
     aliases: ["poultry farm" ], 
     desc: "Poultry farm." 
@@ -195,7 +195,7 @@ export const LOCATIONS = [
     name: "Printing Press" ,
     lat: 7.294636,
     lng: 5.149276,
-    category: "Printing",
+    category: "Commercial",
     verified: true,
     aliases: ["Printing Press" ], 
     desc: "Printing Press." 
@@ -347,9 +347,9 @@ export const LOCATIONS = [
     name: "APH Farm" ,
     lat: 7.300415,
     lng: 5.144670,
-    category: "CSP FARM ALLOCATION",
+    category: "Agricultural",
     verified: true,
-    aliases: ["aph farm" ], 
+    aliases: ["aph farm", "CSP Farm Allocation" ],  
     desc: "APH Farm." 
   },
 
@@ -377,7 +377,7 @@ export const LOCATIONS = [
     name: "Gaming center" ,
     lat: 7.301673,
     lng: 5.141915,
-    category: "Shopping",
+    category: "Commercial",
     verified: true,
     aliases: ["Gaming Center Aluta" ], 
     desc: "Gaming center." 
@@ -467,7 +467,7 @@ export const LOCATIONS = [
     name: "Futa main pitch" ,
     lat: 7.305516,
     lng: 5.136812,
-    category: "Sport",
+    category: "Sports",
     verified: true,
     aliases: ["Taekwando team" ], 
     desc: "FUTA MAIN PITCH." 
@@ -477,7 +477,7 @@ export const LOCATIONS = [
     name: "Lawn Tennis" ,
     lat: 7.306335,
     lng: 5.136592,
-    category: "Sport",
+    category: "Sports",
     verified: true,
     aliases: ["lawn tennis" ], 
     desc: "Lawn Tennis Court." 
@@ -487,7 +487,7 @@ export const LOCATIONS = [
     name: "Central Mosque" ,
     lat: 7.307612,
     lng: 5.133079,
-    category: "Religion",
+    category: "Religious",
     verified: true,
     aliases: ["Central mosque northgate" ], 
     desc: "Central mosque northgate." 
