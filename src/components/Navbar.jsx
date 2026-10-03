@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Compass } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import AuthModal from './AuthModal'
 
@@ -7,6 +8,7 @@ const links = [
   { label: 'Home', href: '#home' },
   { label: 'Map', href: '#map' },
   { label: 'About', href: '#about' },
+  { label: 'Directory', to: '/directory' },
 ]
 
 export default function Navbar() {
@@ -32,9 +34,9 @@ export default function Navbar() {
         <ul className="flex flex-wrap items-center gap-3 text-sm text-white/70 sm:gap-6">
           {links.map((link) => (
             <li key={link.label}>
-              <a href={link.href} className="transition hover:text-white">
+              <Link to={link.to} className="transition hover:text-white">
                 {link.label}
-              </a>
+              </Link>
             </li>
           ))}
           {currentUser ? (
