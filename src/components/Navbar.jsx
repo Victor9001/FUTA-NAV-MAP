@@ -24,12 +24,12 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-10 border-b border-white/10 bg-ink/90 backdrop-blur">
-      <nav className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
+      <nav className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-y-2 px-6 py-4">
         <div className="flex items-center gap-2">
           <Compass className="h-5 w-5 text-futa-400" />
           <span className="font-medium">FUTA Nav</span>
         </div>
-        <ul className="flex items-center gap-6 text-sm text-white/70">
+        <ul className="flex flex-wrap items-center gap-3 text-sm text-white/70 sm:gap-6">
           {links.map((link) => (
             <li key={link.label}>
               <a href={link.href} className="transition hover:text-white">
@@ -39,7 +39,7 @@ export default function Navbar() {
           ))}
           {currentUser ? (
             <li className="flex items-center gap-3">
-              <span className="text-futa-400">{currentUser.displayName || currentUser.email}</span>
+              <span className="text-futa-400">{currentUser.displayName?.split(' ')[0] || currentUser.email}</span>
               <button type="button" onClick={logOut} className="text-white/50 hover:text-white">Sign out</button>
             </li>
           ) : (
