@@ -29,7 +29,7 @@ export const LOCATIONS = [
   { name: "Albert Ilemobade library ",
     lat: 7.304274,
     lng: 5.134504,
-    category: "Academic",
+    category: "Educational",
     verified: true,
     aliases: ["Ilemobade Library", "The Library", "FUTA Library"], 
     desc: "Verified library with a wide collection of resources." },
@@ -37,7 +37,7 @@ export const LOCATIONS = [
     { name: "ETF building" ,
     lat: 7.302289,
     lng: 5.135646,
-    category: "Academic",
+    category: "Lecture Room",
     verified: true,
     aliases: ["ETF", "ETF building", "FUTA ETF"], 
     desc: "750-seat building." },
@@ -45,7 +45,7 @@ export const LOCATIONS = [
     { name: "Lecture Theatre 1" ,
     lat: 7.302443,
     lng: 5.135011,
-    category: "Academic",
+    category: "Lecture Room",
     verified: true,
     aliases: ["Lecture Theatre 1", "LT 1", "FUTA LT1"], 
     desc: "Lecture Theatre 1." 
@@ -55,7 +55,7 @@ export const LOCATIONS = [
     name: "Lecture Theatre 2" ,
     lat: 7.302497,
     lng: 5.134566,
-    category: "Academic",
+    category: "Lecture Room",
     verified: true,
     aliases: ["Lecture Theatre 2", "Lecture Theatre ii", "LT 2", "FUTA LT2"], 
     desc: "Lecture Theatre 2." 
@@ -95,7 +95,7 @@ export const LOCATIONS = [
     name: "HILL-TOP" ,
     lat: 7.305236,
     lng: 5.136083,
-    category: "Academic",
+    category: "Lecture Room",
     verified: true,
     aliases: ["hill-top", ], 
     desc: "Hill-top lecture Theatre." 
@@ -202,12 +202,12 @@ export const LOCATIONS = [
   },
 
   {
-    name: "University Mini Mosque" ,
+    name: "Southgate Mosque" ,
     lat: 7.295130,
     lng: 5.148873,
     category: "Religious",
     verified: true,
-    aliases: ["Southgate Mosque" ], 
+    aliases: ["Obakekere Mosque" ], 
     desc: "University Mini Mosque." 
   },
 
@@ -225,7 +225,7 @@ export const LOCATIONS = [
     name: "Physics lab" ,
     lat: 7.295794,
     lng: 5.148626,
-    category: "Academic",
+    category: "Lab",
     verified: true,
     aliases: ["Physics department", "Physics lab 2", "Physics lab ii" ], 
     desc: "Physics Department." 
@@ -235,7 +235,7 @@ export const LOCATIONS = [
     name: "Physics department" ,
     lat: 7.295778,
     lng: 5.148470,
-    category: "Academic",
+    category: "Lab",
     verified: true,
     aliases: ["Physics lab" ], 
     desc: "Physics Department." 
@@ -245,7 +245,7 @@ export const LOCATIONS = [
     name: "Microbiology lab" ,
     lat: 7.295740,
     lng: 5.148180,
-    category: "Academic",
+    category: "Lab",
     verified: true,
     aliases: ["Microbiology department" ], 
     desc: "Microbiology Lab." 
@@ -255,7 +255,7 @@ export const LOCATIONS = [
     name: "SBMS Southgate" ,
     lat: 7.295962,
     lng: 5.149025,
-    category: "Academic",
+    category: "Lecture Room",
     verified: true,
     aliases: ["old SBMS" ], 
     desc: "SBMS Southgate." 
@@ -265,7 +265,7 @@ export const LOCATIONS = [
     name: "Chemistry lab Research" ,
     lat: 7.295825,
     lng: 5.149232,
-    category: "Academic",
+    category: "Lab",
     verified: true,
     aliases: ["Chemistry department Southgate" ], 
     desc: "Chemistry Lab Research." 
@@ -275,7 +275,7 @@ export const LOCATIONS = [
     name: "IDD Southgate" ,
     lat: 7.296868,
     lng: 5.149210,
-    category: "Academic",
+    category: "Lecture Room",
     verified: true,
     aliases: ["IDD Studio", "Industrial design studio" ], 
     desc: "IDD Southgate." 
@@ -285,7 +285,7 @@ export const LOCATIONS = [
     name: "Great Hall" ,
     lat: 7.296041,
     lng: 5.146839,
-    category: "Academic",
+    category: "Lecture Room",
     verified: true,
     aliases: ["Great Hall" ], 
     desc: "Great Hall." 
@@ -504,142 +504,342 @@ export const LOCATIONS = [
   },
 
   {
-    name: "" ,
-    lat: 7.3,
-    lng: 5.1,
-    category: "",
+    name: "Book Store" ,
+    lat: 7.304837,
+    lng: 5.134289,
+    category: "Commercial",
     verified: true,
-    aliases: ["" ], 
-    desc: "." 
+    aliases: ["Book Shop", "futa bookshop", "photocopy" ], 
+    desc: "FUTA Book Shop." 
   },
 
   {
-    name: "" ,
-    lat: 7.3,
-    lng: 5.1,
-    category: "",
+    name: "Academic Building" ,
+    lat: 7.302480,
+    lng: 5.132299,
+    category:"Lecture Room",
     verified: true,
-    aliases: ["" ], 
-    desc: "." 
+    aliases: ["Mathematical library", "statistic department", "Maths registration" ], 
+    desc: "Academic Building." 
   },
 
   {
-    name: "" ,
-    lat: 7.3,
-    lng: 5.1,
-    category: "",
+    name: "MEE WorkShop" ,
+    lat: 7.3302725,
+    lng: 5.133624,
+    category: "Lecture Room",
     verified: true,
-    aliases: ["" ], 
-    desc: "." 
+    aliases: ["Workshop" ], 
+    desc: "MEE and Other Engineering Workshop." 
   },
 
   {
-    name: "" ,
-    lat: 7.3,
-    lng: 5.1,
-    category: "",
+    name: "SLS Lab" ,
+    lat: 7.302225,
+    lng: 5.133608,
+    category: "Lab",
     verified: true,
-    aliases: ["" ], 
-    desc: "." 
+    aliases: ["School of life science lab" ], 
+    desc: "SLS Lab." 
   },
 
   {
-    name: "" ,
-    lat: 7.3,
-    lng: 5.1,
-    category: "",
+    name: "Chemistry lab" ,
+    lat: 7.301815,
+    lng: 5.134107,
+    category: "Lab",
     verified: true,
-    aliases: ["" ], 
-    desc: "." 
+    aliases: ["100L Chemistry Lab" ], 
+    desc: "Cheistry lab 2." 
   },
 
   {
-    name: "" ,
-    lat: 7.3,
-    lng: 5.1,
-    category: "",
+    name: "Biology Lab" ,
+    lat: 7.301890,
+    lng: 5.133822,
+    category: "Lab",
     verified: true,
-    aliases: ["" ], 
-    desc: "." 
+    aliases: ["biology lab" ], 
+    desc: "Biology lab, more labs are around here." 
   },
 
   {
-    name: "" ,
-    lat: 7.3,
-    lng: 5.1,
-    category: "",
+    name: "Old 3in1 Lt" ,
+    lat: 7.301131,
+    lng: 5.133844,
+    category: "Lecture Room",
     verified: true,
-    aliases: ["" ], 
-    desc: "." 
+    aliases: ["Old 3in1 Lecture Theatre" ], 
+    desc: "Old 3in1 Lecture Theatre." 
   },
 
   {
-    name: "" ,
-    lat: 7.3,
-    lng: 5.1,
-    category: "",
+    name: "SEET" ,
+    lat: 7.303169,
+    lng: 5.135694,
+    category: "Faculty",
     verified: true,
-    aliases: ["" ], 
-    desc: "." 
+    aliases: ["School of Engineer and Engineering Technology","Engineering faculty" ], 
+    desc: "School of Engineering and Engineering Technology." 
   },
 
   {
-    name: "" ,
-    lat: 7.3,
-    lng: 5.1,
-    category: "",
+    name: "SAAT" ,
+    lat: 7.301589,
+    lng: 5.135426,
+    category: "Faculty",
     verified: true,
-    aliases: ["" ], 
-    desc: "." 
+    aliases: ["School of Agriculture and Agricultural Technology","agric falculty" ], 
+    desc: "School of Agriculture and Agricultural Technology." 
   },
 
   {
-    name: "" ,
-    lat: 7.3,
-    lng: 5.1,
-    category: "",
+    name: "Student Affairs" ,
+    lat: 7.300977,
+    lng: 5.138326,
+    category: "Admin",
     verified: true,
-    aliases: ["" ], 
-    desc: "." 
+    aliases: ["student affairs office" ], 
+    desc: "Student Affairs Office." 
   },
 
   {
-    name: "" ,
-    lat: 7.3,
-    lng: 5.1,
-    category: "",
+    name: "Banks here" ,
+    lat: 7.300929,
+    lng: 5.139509,
+    category: "Commercial",
     verified: true,
-    aliases: ["" ], 
-    desc: "." 
+    aliases: ["UBA","WEMA","GTBank","FIRST Bank" ], 
+    desc: "Bank spot." 
   },
 
   {
-    name: "" ,
-    lat: 7.3,
-    lng: 5.1,
-    category: "",
+    name: "Wild-Life Park" ,
+    lat: 7.296683,
+    lng: 5.143315,
+    category: "Landmark",
     verified: true,
-    aliases: ["" ], 
-    desc: "." 
+    aliases: ["futa wild life park" ], 
+    desc: "Wild-Life Park." 
   },
 
   {
-    name: "" ,
-    lat: 7.3,
-    lng: 5.1,
-    category: "",
+    name: "New SET" ,
+    lat: 7.299892,
+    lng: 5.137859,
+    category: "Faculty",
     verified: true,
-    aliases: ["" ], 
-    desc: "." 
+    aliases: ["School of Environmental Technology" ], 
+    desc: "New SET." 
   },
 
   {
-    name: "" ,
-    lat: 7.3,
-    lng: 5.1,
-    category: "",
+    name: "Old SET" ,
+    lat: 7.299344,
+    lng: 5.136480,
+    category: "Faculty",
     verified: true,
-    aliases: ["" ], 
-    desc: "." 
+    aliases: ["Old School of Environmental Technology" ], 
+    desc: "Old SET." 
+  },
+
+  {
+    name: "SEMS" ,
+    lat: 7.298476,
+    lng: 5.135933,
+    category: "Faculty",
+    verified: true,
+    aliases: ["School of EARTH and MINERAL SCIENCE FALCUTY" ], 
+    desc: "School of EARTH and MINERAL SCIENCE." 
+  },
+
+  {
+    name: "2IN1 Building block" ,
+    lat: 7.298242,
+    lng: 5.136470,
+    category: "Lecture Room",
+    verified: true,
+    aliases: ["2in1 Lecture Theatre" ], 
+    desc: "2IN1 Building block." 
+  },
+
+  {
+    name: "GNS Building Block" ,
+    lat: 7.299429,
+    lng: 5.132972,
+    category: "Lecture Room",
+    verified: true,
+    aliases: ["GNS BUILDING BLOCK" ], 
+    desc: "GNS Building Block." 
+  },
+
+  {
+    name: "SLIT Building Block" ,
+    lat: 7.298104,
+    lng: 5.134868,
+    category: "Faculty",
+    verified: true,
+    aliases: ["School ofLogistics and Innovation Technology FACULTY" ], 
+    desc: "SLIT Building Block." 
+  },
+
+  {
+    name: "FBN BLOCK" ,
+    lat: 7.297981,
+    lng: 5.132948,
+    category: "Lecture Room",
+    verified: true,
+    aliases: ["FBN" ], 
+    desc: "FBN BLOCK." 
+  },
+
+  {
+    name: "Old 1K Cap" ,
+    lat: 7.297912,
+    lng: 5.132960,
+    category: "Lecture Room",
+    verified: true,
+    aliases: ["Old 1,000 Capacity","old 1000 capacity" ], 
+    desc: "Old 1K Cap." 
+  },
+
+  {
+    name: "New 1k Cap" ,
+    lat: 7.297987,
+    lng: 5.131752,
+    category: "Lecture Room",
+    verified: true,
+    aliases: ["New 1,000 Capacity","new 1000 capacity" ], 
+    desc: "New 1K Cap." 
+  },
+
+  {
+    name: "SPS" ,
+    lat: 7.298242,
+    lng: 5.130904,
+    category: "Faculty",
+    verified: true,
+    aliases: ["SChool of Physical Science" ], 
+    desc: "school of physical science." 
+  },
+
+  {
+    name: "New SBMS" ,
+    lat: 7.297290,
+    lng: 5.130689,
+    category: "Faculty",
+    verified: true,
+    aliases: ["New School of BASICand MEDICAL SCIENCE" ], 
+    desc: "New SBMS." 
+  },
+
+  {
+    name: "SESE" ,
+    lat: 7.299652,
+    lng: 5.1305528,
+    category: "Faculty",
+    verified: true,
+    aliases: ["School of Electrical Systems Engineering faculty" ], 
+    desc: "School of Electrical Systems Engineering." 
+  },
+
+  {
+    name: "UBA fire station" ,
+    lat: 7.301600,
+    lng: 5.131816,
+    category: "Commercial",
+    verified: true,
+    aliases: ["fire station" ], 
+    desc: "UBA Fire Station." 
+  },
+
+  {
+    name: "Green House" ,
+    lat: 7.298354,
+    lng: 5.133238,
+    category: "Agricultural",
+    verified: true,
+    aliases: ["green house futa" ], 
+    desc: "greeen house." 
+  },
+
+  {
+    name: "3in1 A" ,
+    lat: 7.298130,
+    lng: 5.132406,
+    category: "Lecture Room",
+    verified: true,
+    aliases: ["3in1 A block lt" ], 
+    desc: "3in1 A block." 
+  },
+
+  {
+    name: "3in1 B" ,
+    lat: 7.298152,
+    lng: 5.132047,
+    category: "Lecture Room",
+    verified: true,
+    aliases: ["3in1 B lt" ], 
+    desc: "3in1 B." 
+  },
+
+  {
+    name: "3in1 C" ,
+    lat: 7.297801,
+    lng: 5.132218,
+    category: "Lecture Room",
+    verified: true,
+    aliases: ["3in1 C Lt" ], 
+    desc: "3in1 C." 
+  },
+
+  {
+    name: "MBBS" ,
+    lat: 7.299528,
+    lng: 5.131875,
+    category: "Lecture Room",
+    verified: true,
+    aliases: ["Medical faculty" ], 
+    desc: "MBBS Block." 
+  },
+
+  {
+    name: "postgradute hostel" ,
+    lat: 7.296007,
+    lng: 5.131457,
+    category: "Hostel",
+    verified: true,
+    aliases: ["Postgraduate Hostel" ], 
+    desc: "Postgraduate Hostel." 
+  },
+
+  {
+    name: "AWOSIKA FEMALE HOSTEL" ,
+    lat: 7.295991,
+    lng: 5.135190,
+    category: "Hostel",
+    verified: true,
+    aliases: ["NEW HOSTEL FEMALE" ], 
+    desc: "AWOSIKA FEMALE HOSTEL." 
+  },
+
+  {
+    name: "AWOSIKA MALE HOSTEL" ,
+    lat: 7.295129,
+    lng: 5.135255,
+    category: "Hostel",
+    verified: true,
+    aliases: ["NEW HOSTEL MALE" ], 
+    desc: "AWOSIKA MALE HOSTEL." 
+  },
+
+  {
+    name: "West Gate" ,
+    lat: 7.294049,
+    lng: 5.136365,
+    category: "Landmark",
+    verified: true,
+    aliases: ["West Gate ENTRY" ], 
+    desc: "West Gate." 
   },
 ]

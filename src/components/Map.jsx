@@ -303,7 +303,10 @@ export default function MapView({ locations, query, searchTrigger, sharedLocatio
     }
   }, [searchTrigger])
 
-  const categories = ['All', ...new Set(locations.map((l) => l.category))]
+    const allCategories = [...new Set(locations.map((l) => l.category))]
+    const visibleCategories = ['All', ...allCategories.slice(0, 3)]
+    const overflowCategories = allCategories.slice(3)
+
 
   function toggleView(next) {
     setView(next)
@@ -335,8 +338,8 @@ export default function MapView({ locations, query, searchTrigger, sharedLocatio
       >
         {shareLabel}
       </button>
-      <div className="absolute right-3 top-3 z-10 flex flex-wrap justify-end gap-1.5 max-w-[60%]">
-        {categories.map((cat) => (
+            <div className="absolute right-3 top-3 z-10 flex flex-wrap items-center justify-end gap-1.5 max-w-[65%]">
+        {visibleCategories.map((cat) => (
           <button
             key={cat}
             type="button"
@@ -350,6 +353,22 @@ export default function MapView({ locations, query, searchTrigger, sharedLocatio
             {cat}
           </button>
         ))}
+        {overflowCategories.length > 0 && (
+          <select
+            value={overflowCategories.includes(activeCategory) ? activeCategory : ''}
+            onChange={(e) => { if (e.target.value) setActiveCategory(e.target.value) }}
+            className={`rounded-full border px-2 py-1 text-[11px] ${
+              overflowCategories.includes(activeCategory)
+                ? 'border-futa-400 bg-futa-400/20 text-futa-400'
+                : 'border-white/10 bg-ink/90 text-white/60'
+            }`}
+          >
+            <option value="">More</option>
+            {overflowCategories.map((cat) => (
+              <option key={cat} value={cat}>{cat}</option>
+            ))}
+          </select>
+        )}
       </div>
     </div>
   )

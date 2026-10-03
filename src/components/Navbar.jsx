@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Compass } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import AuthModal from './AuthModal'
@@ -10,8 +10,17 @@ const links = [
 ]
 
 export default function Navbar() {
-  const { currentUser, logOut } = useAuth()
+  const { currentUser, loading, logOut } = useAuth()
   const [showAuth, setShowAuth] = useState(false)
+
+  useEffect(() => {
+    if (loading || currentUser) return
+    const alreadyPrompted = localStorage.getItem('futa-nav-auth-prompted')
+    if (!alreadyPrompted) {
+      setShowAuth(true)
+      localStorage.setItem('futa-nav-auth-prompted', 'true')
+    }
+  }, [loading, currentUser])
 
   return (
     <header className="sticky top-0 z-10 border-b border-white/10 bg-ink/90 backdrop-blur">
