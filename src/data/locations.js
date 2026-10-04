@@ -374,7 +374,7 @@ export const LOCATIONS = [
   },
 
   {
-    name: "Gaming center" ,
+    name: "Gaming center",
     lat: 7.301673,
     lng: 5.141915,
     category: "Commercial",
@@ -384,7 +384,7 @@ export const LOCATIONS = [
   },
 
   {
-    name: "Sweet savour" ,
+    name: "Sweet savour",
     lat: 7.304645,
     lng: 5.139672,
     category: "Food",
@@ -394,7 +394,7 @@ export const LOCATIONS = [
   },
 
   {
-    name: "FUTA GYM" ,
+    name: "FUTA GYM",
     lat: 7.304155,
     lng: 5.139446,
     category: "Sports",
@@ -404,7 +404,7 @@ export const LOCATIONS = [
   },
 
   {
-    name: "Northgate" ,
+    name: "Northgate",
     lat: 7.306487,
     lng: 5.139602,
     category: "Landmark",
@@ -414,7 +414,7 @@ export const LOCATIONS = [
   },
 
   {
-    name: "GAS Station" ,
+    name: "GAS Station",
     lat: 7.306405,
     lng: 5.139264,
     category: "Commercial",
@@ -424,7 +424,7 @@ export const LOCATIONS = [
   },
 
   {
-    name: "Mummy Biola Food" ,
+    name: "Mummy Biola Food",
     lat: 7.306631,
     lng: 5.138642,
     category: "Food",
@@ -434,7 +434,7 @@ export const LOCATIONS = [
   },
 
   {
-    name: "Basketball Court" ,
+    name: "Basketball Court",
     lat: 7.305928,
     lng: 5.139060,
     category: "Sports",
@@ -444,8 +444,8 @@ export const LOCATIONS = [
   },
 
   {
-    name: "FUTA Indoor game hall" ,
-    lat: 7.305847,
+    name: "FUTA Indoor game hall",
+    lat: 7.305849,
     lng: 5.138435,
     category: "Sports",
     verified: true,
@@ -474,7 +474,7 @@ export const LOCATIONS = [
   },
 
   {
-    name: "Lawn Tennis" ,
+    name: "Lawn Tennis",
     lat: 7.306335,
     lng: 5.136592,
     category: "Sports",
@@ -484,7 +484,7 @@ export const LOCATIONS = [
   },
 
   {
-    name: "Central Mosque" ,
+    name: "Central Mosque",
     lat: 7.307612,
     lng: 5.133079,
     category: "Religious",
@@ -494,7 +494,7 @@ export const LOCATIONS = [
   },
 
   {
-    name: "Centre for ENT" ,
+    name: "Centre for ENT",
     lat: 7.307394,
     lng: 5.134527,
     category: "Admin",
@@ -504,7 +504,7 @@ export const LOCATIONS = [
   },
 
   {
-    name: "Book Store" ,
+    name: "Book Store",
     lat: 7.304837,
     lng: 5.134289,
     category: "Commercial",
@@ -514,7 +514,7 @@ export const LOCATIONS = [
   },
 
   {
-    name: "Academic Building" ,
+    name: "Academic Building",
     lat: 7.302480,
     lng: 5.132299,
     category:"Lecture Room",
@@ -524,8 +524,8 @@ export const LOCATIONS = [
   },
 
   {
-    name: "MEE WorkShop" ,
-    lat: 7.3302725,
+    name: "MEE WorkShop",
+    lat: 7.302725,
     lng: 5.133624,
     category: "Lecture Room",
     verified: true,
@@ -534,7 +534,7 @@ export const LOCATIONS = [
   },
 
   {
-    name: "SLS Lab" ,
+    name: "SLS Lab",
     lat: 7.302225,
     lng: 5.133608,
     category: "Lab",
@@ -544,7 +544,7 @@ export const LOCATIONS = [
   },
 
   {
-    name: "Chemistry lab" ,
+    name: "Chemistry lab",
     lat: 7.301815,
     lng: 5.134107,
     category: "Lab",
@@ -554,7 +554,7 @@ export const LOCATIONS = [
   },
 
   {
-    name: "Biology Lab" ,
+    name: "Biology Lab",
     lat: 7.301890,
     lng: 5.133822,
     category: "Lab",
@@ -564,7 +564,7 @@ export const LOCATIONS = [
   },
 
   {
-    name: "Old 3in1 Lt" ,
+    name: "Old 3in1 Lt",
     lat: 7.301131,
     lng: 5.133844,
     category: "Lecture Room",
@@ -574,7 +574,7 @@ export const LOCATIONS = [
   },
 
   {
-    name: "SEET" ,
+    name: "SEET",
     lat: 7.303169,
     lng: 5.135694,
     category: "Faculty",
@@ -584,7 +584,7 @@ export const LOCATIONS = [
   },
 
   {
-    name: "SAAT" ,
+    name: "SAAT",
     lat: 7.301589,
     lng: 5.135426,
     category: "Faculty",
@@ -594,7 +594,7 @@ export const LOCATIONS = [
   },
 
   {
-    name: "Student Affairs" ,
+    name: "Student Affairs",
     lat: 7.300977,
     lng: 5.138326,
     category: "Admin",
@@ -604,7 +604,7 @@ export const LOCATIONS = [
   },
 
   {
-    name: "Banks here" ,
+    name: "Banks here",
     lat: 7.300929,
     lng: 5.139509,
     category: "Commercial",
@@ -614,7 +614,7 @@ export const LOCATIONS = [
   },
 
   {
-    name: "Wild-Life Park" ,
+    name: "Wild-Life Park",
     lat: 7.296683,
     lng: 5.143315,
     category: "Landmark",
@@ -624,7 +624,7 @@ export const LOCATIONS = [
   },
 
   {
-    name: "New SET" ,
+    name: "New SET",
     lat: 7.299892,
     lng: 5.137859,
     category: "Faculty",
@@ -634,7 +634,7 @@ export const LOCATIONS = [
   },
 
   {
-    name: "Old SET" ,
+    name: "Old SET",
     lat: 7.299344,
     lng: 5.136480,
     category: "Faculty",
@@ -644,7 +644,7 @@ export const LOCATIONS = [
   },
 
   {
-    name: "SEMS" ,
+    name: "SEMS",
     lat: 7.298476,
     lng: 5.135933,
     category: "Faculty",
@@ -654,7 +654,7 @@ export const LOCATIONS = [
   },
 
   {
-    name: "2IN1 Building block" ,
+    name: "2IN1 Building block",
     lat: 7.298242,
     lng: 5.136470,
     category: "Lecture Room",
@@ -664,7 +664,7 @@ export const LOCATIONS = [
   },
 
   {
-    name: "GNS Building Block" ,
+    name: "GNS Building Block",
     lat: 7.299429,
     lng: 5.132972,
     category: "Lecture Room",
@@ -674,7 +674,7 @@ export const LOCATIONS = [
   },
 
   {
-    name: "SLIT Building Block" ,
+    name: "SLIT Building Block",
     lat: 7.298104,
     lng: 5.134868,
     category: "Faculty",
@@ -684,7 +684,7 @@ export const LOCATIONS = [
   },
 
   {
-    name: "FBN BLOCK" ,
+    name: "FBN BLOCK",
     lat: 7.297981,
     lng: 5.132948,
     category: "Lecture Room",
@@ -694,9 +694,9 @@ export const LOCATIONS = [
   },
 
   {
-    name: "Old 1K Cap" ,
+    name: "Old 1K Cap",
     lat: 7.297912,
-    lng: 5.132960,
+    lng: 5.132760,
     category: "Lecture Room",
     verified: true,
     aliases: ["Old 1,000 Capacity","old 1000 capacity" ], 
@@ -704,7 +704,7 @@ export const LOCATIONS = [
   },
 
   {
-    name: "New 1k Cap" ,
+    name: "New 1k Cap",
     lat: 7.297987,
     lng: 5.131752,
     category: "Lecture Room",
@@ -714,7 +714,7 @@ export const LOCATIONS = [
   },
 
   {
-    name: "SPS" ,
+    name: "SPS",
     lat: 7.298242,
     lng: 5.130904,
     category: "Faculty",
@@ -724,7 +724,7 @@ export const LOCATIONS = [
   },
 
   {
-    name: "New SBMS" ,
+    name: "New SBMS",
     lat: 7.297290,
     lng: 5.130689,
     category: "Faculty",
@@ -734,9 +734,9 @@ export const LOCATIONS = [
   },
 
   {
-    name: "SESE" ,
+    name: "SESE",
     lat: 7.299652,
-    lng: 5.1305528,
+    lng: 5.130528,
     category: "Faculty",
     verified: true,
     aliases: ["School of Electrical Systems Engineering faculty" ], 
@@ -744,7 +744,7 @@ export const LOCATIONS = [
   },
 
   {
-    name: "UBA fire station" ,
+    name: "UBA fire station",
     lat: 7.301600,
     lng: 5.131816,
     category: "Commercial",
@@ -754,7 +754,7 @@ export const LOCATIONS = [
   },
 
   {
-    name: "Green House" ,
+    name: "Green House",
     lat: 7.298354,
     lng: 5.133238,
     category: "Agricultural",
@@ -764,7 +764,7 @@ export const LOCATIONS = [
   },
 
   {
-    name: "3in1 A" ,
+    name: "3in1 A",
     lat: 7.298130,
     lng: 5.132406,
     category: "Lecture Room",
@@ -774,7 +774,7 @@ export const LOCATIONS = [
   },
 
   {
-    name: "3in1 B" ,
+    name: "3in1 B",
     lat: 7.298152,
     lng: 5.132047,
     category: "Lecture Room",
@@ -784,7 +784,7 @@ export const LOCATIONS = [
   },
 
   {
-    name: "3in1 C" ,
+    name: "3in1 C",
     lat: 7.297801,
     lng: 5.132218,
     category: "Lecture Room",
@@ -794,9 +794,9 @@ export const LOCATIONS = [
   },
 
   {
-    name: "MBBS" ,
-    lat: 7.299528,
-    lng: 5.131875,
+    name: "Medical classroom 1",
+    lat: 7.297537,
+    lng: 5.131848,
     category: "Lecture Room",
     verified: true,
     aliases: ["Medical faculty" ], 
@@ -804,7 +804,17 @@ export const LOCATIONS = [
   },
 
   {
-    name: "postgradute hostel" ,
+    name: "Medical classroom2",
+    lat: 7.297524,
+    lng: 5.132789,
+    category: "Lecture Room",
+    verified: true,
+    aliases: ["Medical faculty" ], 
+    desc: "MBBS Block." 
+  },
+
+  {
+    name: "postgradute hostel",
     lat: 7.296007,
     lng: 5.131457,
     category: "Hostel",
@@ -814,7 +824,7 @@ export const LOCATIONS = [
   },
 
   {
-    name: "AWOSIKA FEMALE HOSTEL" ,
+    name: "AWOSIKA FEMALE HOSTEL",
     lat: 7.295991,
     lng: 5.135190,
     category: "Hostel",
@@ -824,7 +834,7 @@ export const LOCATIONS = [
   },
 
   {
-    name: "AWOSIKA MALE HOSTEL" ,
+    name: "AWOSIKA MALE HOSTEL",
     lat: 7.295129,
     lng: 5.135255,
     category: "Hostel",
@@ -834,7 +844,7 @@ export const LOCATIONS = [
   },
 
   {
-    name: "West Gate" ,
+    name: "West Gate",
     lat: 7.294049,
     lng: 5.136365,
     category: "Landmark",

@@ -9,6 +9,7 @@ const links = [
   { label: 'Map', href: '#map' },
   { label: 'About', href: '#about' },
   { label: 'Directory', to: '/directory' },
+  { label: 'Suggest', to: '/suggest' },
 ]
 
 export default function Navbar() {
