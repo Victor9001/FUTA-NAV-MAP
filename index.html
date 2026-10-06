@@ -2,12 +2,28 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>futa-nav-map</title>
+    <title>FUTA Nav</title>
+    <meta name="description" content="Find your way around the Federal University of Technology, Akure — search any building and get real walking directions." />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="FUTA Nav" />
+    <meta property="og:description" content="Find your way around FUTA — search any building and get real walking directions." />
+    <meta property="og:image" content="https://futa-nav-map.vercel.app/og-image.png" />
+    <meta property="og:url" content="https://futa-nav-map.vercel.app/" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="FUTA Nav" />
+    <meta name="twitter:description" content="Find your way around FUTA — search any building and get real walking directions." />
+    <meta name="twitter:image" content="https://futa-nav-map.vercel.app/og-image.png" />
   </head>
   <body>
     <div id="root"></div>
+    <div id="initial-loader" style="position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:#150f24;z-index:9999;">
+      <div style="width:32px;height:32px;border:3px solid rgba(255,255,255,.15);border-top-color:#9b6cf0;border-radius:50%;animation:fn-spin 0.8s linear infinite;"></div>
+      <span style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:13px;color:rgba(255,255,255,.5);">Loading FUTA Nav…</span>
+    </div>
+    <style>@keyframes fn-spin { to { transform: rotate(360deg); } }</style>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

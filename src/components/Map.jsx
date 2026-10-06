@@ -5,6 +5,8 @@ import maplibreWorkerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&ur
 import lineSlice from '@turf/line-slice'
 import { point, lineString } from '@turf/helpers'
 import { slugify } from '../utils/slug'
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
+import { db } from '../firebase'
 
 maplibregl.setWorkerUrl(maplibreWorkerUrl)
 
@@ -229,6 +231,16 @@ export default function MapView({ locations, query, searchTrigger, sharedLocatio
 
       wrap.append(dot, label)
 
+      wrap.setAttribute('role', 'button')
+      wrap.setAttribute('tabindex', '0')
+      wrap.setAttribute('aria-label', loc.name)
+      wrap.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          wrap.click()
+        }
+      })
+
       const marker = new maplibregl.Marker({ element: wrap })
         .setLngLat([loc.lng, loc.lat])
         .setPopup(new maplibregl.Popup({ offset: 12 }).setDOMContent(buildPopup(loc, showRoute)))
@@ -274,19 +286,30 @@ export default function MapView({ locations, query, searchTrigger, sharedLocatio
     })
   }, [sharedLocation])
 
-  function shareMyLocation() {
+    async function shareMyLocation() {
     const loc = userLocationRef.current
     if (!loc) {
       setShareLabel('Location not ready yet')
       setTimeout(() => setShareLabel('Share my location'), 2000)
       return
     }
-    const url = `${window.location.origin}${window.location.pathname}?loc=${loc.lat},${loc.lng}`
-    navigator.clipboard.writeText(url)
-      .then(() => setShareLabel('Copied!'))
-      .catch(() => setShareLabel('Copy failed'))
-    setTimeout(() => setShareLabel('Share my location'), 2000)
+    setShareLabel('Creating link...')
+    try {
+      const docRef = await addDoc(collection(db, 'shares'), {
+        lat: loc.lat,
+        lng: loc.lng,
+        createdAt: serverTimestamp(),
+      })
+      const url = `${window.location.origin}${window.location.pathname}?share=${docRef.id}`
+      await navigator.clipboard.writeText(url)
+      setShareLabel('Copied! (expires in 30 min)')
+    } catch (err) {
+      console.error('Could not create share link:', err)
+      setShareLabel('Could not create link')
+    }
+    setTimeout(() => setShareLabel('Share my location'), 2500)
   }
+    
 
   useEffect(() => {
     if (searchTrigger === 0) return
@@ -314,7 +337,7 @@ export default function MapView({ locations, query, searchTrigger, sharedLocatio
   }
 
   return (
-    <div className="relative h-[480px] w-full overflow-hidden rounded-xl border border-white/10">
+    <div className="relative h-full w-full overflow-hidden rounded-xl border border-white/10">
       <div ref={containerRef} className="h-full w-full" />
       {loading && (
         <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-ink/90">
@@ -323,13 +346,16 @@ export default function MapView({ locations, query, searchTrigger, sharedLocatio
         </div>
       )}
       {routeError && (
-        <div className="absolute bottom-3 left-3 right-3 z-20 rounded-lg border border-red-400/30 bg-red-950/90 px-3 py-2 text-xs text-red-200">
+        <div
+          role="alert"
+          className="absolute bottom-3 left-3 right-3 z-20 rounded-lg border border-red-400/30 bg-red-950/90 px-3 py-2 text-xs text-red-200"
+        >
           {routeError}
         </div>
       )}
       <div className="absolute left-3 top-3 z-10 flex overflow-hidden rounded-lg border border-white/10 bg-ink/90 text-xs">
-        <button type="button" onClick={() => toggleView('street')} className={`px-3 py-1.5 ${view === 'street' ? 'bg-futa-400/20 text-futa-400' : 'text-white/60'}`}>Street</button>
-        <button type="button" onClick={() => toggleView('satellite')} className={`px-3 py-1.5 ${view === 'satellite' ? 'bg-futa-400/20 text-futa-400' : 'text-white/60'}`}>Satellite</button>
+                <button type="button" aria-pressed={view === 'street'} onClick={() => toggleView('street')} className={`px-3 py-1.5 ${view === 'street' ? 'bg-futa-400/20 text-futa-400' : 'text-white/60'}`}>Street</button>
+        <button type="button" aria-pressed={view === 'satellite'} onClick={() => toggleView('satellite')} className={`px-3 py-1.5 ${view === 'satellite' ? 'bg-futa-400/20 text-futa-400' : 'text-white/60'}`}>Satellite</button>
       </div>
       <button
         type="button"
@@ -343,6 +369,7 @@ export default function MapView({ locations, query, searchTrigger, sharedLocatio
           <button
             key={cat}
             type="button"
+            aria-pressed={activeCategory === cat}
             onClick={() => setActiveCategory(cat)}
             className={`rounded-full border px-2.5 py-1 text-[11px] ${
               activeCategory === cat

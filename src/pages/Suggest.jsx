@@ -4,6 +4,8 @@ import { db } from '../firebase'
 import { useAuth } from '../context/AuthContext'
 import { LOCATIONS } from '../data/locations'
 
+const FUTA_VIEWBOX = '5.125,7.315,5.150,7.295'
+
 export default function Suggest() {
   const { currentUser } = useAuth()
   const existingCategories = [...new Set(LOCATIONS.map((l) => l.category))]
@@ -14,6 +16,34 @@ export default function Suggest() {
   const [lat, setLat] = useState('')
   const [lng, setLng] = useState('')
   const [status, setStatus] = useState('idle')
+  const [geocoding, setGeocoding] = useState(false)
+  const [geocodeMsg, setGeocodeMsg] = useState('')
+
+  async function findCoordinates() {
+    if (!name.trim()) {
+      setGeocodeMsg('Type the name first.')
+      return
+    }
+    setGeocoding(true)
+    setGeocodeMsg('')
+    try {
+      const query = encodeURIComponent(`${name}, Federal University of Technology Akure, Nigeria`)
+      const url = `https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=1&countrycodes=ng&viewbox=${FUTA_VIEWBOX}&bounded=1`
+      const res = await fetch(url)
+      const results = await res.json()
+      if (results.length > 0) {
+        setLat(results[0].lat)
+        setLng(results[0].lon)
+        setGeocodeMsg('Found an approximate location — check it below and adjust if needed.')
+      } else {
+        setGeocodeMsg("Couldn't find it automatically. You can still submit without coordinates.")
+      }
+    } catch (err) {
+      setGeocodeMsg("Couldn't search for a location right now.")
+    } finally {
+      setGeocoding(false)
+    }
+  }
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -35,6 +65,7 @@ export default function Suggest() {
       setDescription('')
       setLat('')
       setLng('')
+      setGeocodeMsg('')
     } catch (err) {
       console.error(err)
       setStatus('error')
@@ -100,6 +131,17 @@ export default function Suggest() {
           rows={3}
           className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm outline-none focus:border-futa-400"
         />
+
+        <button
+          type="button"
+          onClick={findCoordinates}
+          disabled={geocoding}
+          className="self-start rounded-lg bg-futa-400/20 px-3 py-1.5 text-xs text-futa-400 disabled:opacity-60"
+        >
+          {geocoding ? 'Searching...' : 'Find coordinates automatically'}
+        </button>
+        {geocodeMsg && <p className="text-xs text-white/50">{geocodeMsg}</p>}
+
         <div className="flex gap-3">
           <input
             type="text"

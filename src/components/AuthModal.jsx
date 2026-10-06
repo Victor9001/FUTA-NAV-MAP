@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { useAuth } from '../context/AuthContext'
 
@@ -10,6 +10,16 @@ export default function AuthModal({ onClose }) {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
+  const firstFieldRef = useRef(null)
+
+  useEffect(() => {
+    firstFieldRef.current?.focus()
+    function handleKeyDown(e) {
+      if (e.key === 'Escape') onClose()
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [onClose])
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -31,11 +41,14 @@ export default function AuthModal({ onClose }) {
 
   return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/60 px-4 py-8" onClick={onClose}>
-      <div
+        <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="auth-modal-title"
         className="w-full max-w-sm rounded-xl border border-white/10 bg-ink p-6"
         onClick={(e) => e.stopPropagation()}
       >
-        <h2 className="text-lg font-medium">{mode === 'signup' ? 'Create an account' : 'Sign in'}</h2>
+        <h2 id="auth-modal-title" className="text-lg font-medium">{mode === 'signup' ? 'Create an account' : 'Sign in'}</h2>
         <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-3">
           {mode === 'signup' && (
             <input
@@ -48,6 +61,7 @@ export default function AuthModal({ onClose }) {
             />
           )}
           <input
+            ref={firstFieldRef}
             type="email"
             placeholder="Email"
             value={email}
