@@ -121,15 +121,7 @@ export const LOCATIONS = [
     desc: "Annex 3 female hostel." 
   },
 
-  {
-    name: "Jibowu Annex 2" ,
-    lat: 7.304124,
-    lng: 5.141750,
-    category: "Hostel",
-    verified: true,
-    aliases: ["jibowu annex 2", "Annex 2" ], 
-    desc: "Annex 2 female hostel." 
-  },
+  
 
   {
     name: "Alumni Building" ,
