@@ -13,7 +13,7 @@ export const LOCATIONS = [
     lng: 5.136791,
     category: "Landmark",
     verified: true,
-    aliases: ["Main Auditorium", "2,500 capacity", "obafemi awolowo hall"],
+    aliases: ["Main Auditorium", "2,500 capacity", "obafemi awolowo hall", ],
     desc: "Central auditorium for large events."},
 
 
@@ -249,7 +249,7 @@ export const LOCATIONS = [
     lng: 5.149025,
     category: "Lecture Room",
     verified: true,
-    aliases: ["old SBMS" ], 
+    aliases: ["old SBMS"], 
     desc: "SBMS Southgate." 
   },
 
@@ -269,7 +269,7 @@ export const LOCATIONS = [
     lng: 5.149210,
     category: "Lecture Room",
     verified: true,
-    aliases: ["IDD Studio", "Industrial design studio" ], 
+    aliases: ["IDD Studio", "Industrial design studio"], 
     desc: "IDD Southgate." 
   },
 
@@ -279,7 +279,7 @@ export const LOCATIONS = [
     lng: 5.146839,
     category: "Lecture Room",
     verified: true,
-    aliases: ["Great Hall" ], 
+    aliases: ["Great Hall"], 
     desc: "Great Hall." 
   },
 

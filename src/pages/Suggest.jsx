@@ -67,7 +67,9 @@ export default function Suggest() {
       setLng('')
       setGeocodeMsg('')
     } catch (err) {
-      console.error(err)
+      console.error('FIRESTORE ERROR:', err)
+      console.error('CODE:', err?.code)
+      console.error('MESSAGE:', err?.message)
       setStatus('error')
     }
   }
