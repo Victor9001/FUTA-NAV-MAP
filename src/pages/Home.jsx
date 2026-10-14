@@ -44,7 +44,7 @@ export default function Home() {
           }
           setSharedLocation({ lat: data.lat, lng: data.lng })
         })
-        .catch(() => setShareStatus('not-found'))
+          .catch((err) => setShareStatus(err.code === 'permission-denied' ? 'expired' : 'not-found'))
     }
   }, [])
 

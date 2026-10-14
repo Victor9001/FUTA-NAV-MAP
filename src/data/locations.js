@@ -3,7 +3,7 @@ export const LOCATIONS = [
   { name: "South Gate",
     lat: 7.293023,
     lng: 5.149893,
-    category: "Landmark",
+    category: "Gate",
     verified: true,
     aliases: ["South Entrance", " SouthCheck Post", "FUTA South Gate"],
     desc: "Verified campus reference point." },
@@ -29,7 +29,7 @@ export const LOCATIONS = [
   { name: "Albert Ilemobade library ",
     lat: 7.304274,
     lng: 5.134504,
-    category: "Educational",
+    category: "library",
     verified: true,
     aliases: ["Ilemobade Library", "The Library", "FUTA Library"], 
     desc: "Verified library with a wide collection of resources." },
@@ -157,7 +157,7 @@ export const LOCATIONS = [
     name: "Shuttle Park" ,
     lat: 7.292949,
     lng: 5.149587,
-    category: "Landmark",
+    category: "parking",
     verified: true,
     aliases: ["Southgate Shuttle park" ], 
     desc: "shuttle part at southgate." 
@@ -187,7 +187,7 @@ export const LOCATIONS = [
     name: "Printing Press" ,
     lat: 7.294636,
     lng: 5.149276,
-    category: "Commercial",
+    category: "Print",
     verified: true,
     aliases: ["Printing Press" ], 
     desc: "Printing Press." 
@@ -197,7 +197,7 @@ export const LOCATIONS = [
     name: "Southgate Mosque" ,
     lat: 7.295130,
     lng: 5.148873,
-    category: "Religious",
+    category: "Mosque",
     verified: true,
     aliases: ["Obakekere Mosque" ], 
     desc: "University Mini Mosque." 
@@ -316,12 +316,12 @@ export const LOCATIONS = [
   },
 
   {
-    name: "Obakekere CBT Center" ,
+    name: "Electronic Test Centre" ,
     lat: 7.295825,
     lng: 5.146502,
     category: "Educational",
     verified: true,
-    aliases: ["Obakekere CBT Centre southgate","Electronic Test Centre","ETC" ], 
+    aliases: ["Obakekere CBT Centre south gate","Electronic Test Centre","ETC" ], 
     desc: "Obakekere CBT Center." 
   },
 
@@ -396,12 +396,12 @@ export const LOCATIONS = [
   },
 
   {
-    name: "Northgate",
+    name: "North Gate",
     lat: 7.306487,
     lng: 5.139602,
-    category: "Landmark",
+    category: "Gate",
     verified: true,
-    aliases: ["Northgate check post","Northgate Entry point" ], 
+    aliases: ["Northgate check post","Northgate Entry point","North-gate" ], 
     desc: "North-gate." 
   },
 
@@ -411,7 +411,7 @@ export const LOCATIONS = [
     lng: 5.139264,
     category: "Commercial",
     verified: true,
-    aliases: ["GAS Station northgate" ], 
+    aliases: ["GAS Station north gate" ], 
     desc: "GAS Station." 
   },
 
@@ -421,7 +421,7 @@ export const LOCATIONS = [
     lng: 5.138642,
     category: "Food",
     verified: true,
-    aliases: ["Mummy Biola northgate" ], 
+    aliases: ["Mummy Biola north gate" ], 
     desc: "Mummy Biola Food." 
   },
 
@@ -431,7 +431,7 @@ export const LOCATIONS = [
     lng: 5.139060,
     category: "Sports",
     verified: true,
-    aliases: ["Basketball Court northgate", "Volleyball Court northgate" ], 
+    aliases: ["Basketball Court north gate", "Volleyball Court north gate" ], 
     desc: "Basketball Court." 
   },
 
@@ -479,9 +479,9 @@ export const LOCATIONS = [
     name: "Central Mosque",
     lat: 7.307612,
     lng: 5.133079,
-    category: "Religious",
+    category: "Mosque",
     verified: true,
-    aliases: ["Central mosque northgate" ], 
+    aliases: ["Central mosque north gate" ], 
     desc: "Central mosque northgate." 
   },
 
@@ -519,7 +519,7 @@ export const LOCATIONS = [
     name: "MEE WorkShop",
     lat: 7.302725,
     lng: 5.133624,
-    category: "Lecture Room",
+    category: "Lab",
     verified: true,
     aliases: ["Workshop" ], 
     desc: "MEE and Other Engineering Workshop." 
@@ -599,7 +599,7 @@ export const LOCATIONS = [
     name: "Banks here",
     lat: 7.300929,
     lng: 5.139509,
-    category: "Commercial",
+    category: "Bank",
     verified: true,
     aliases: ["UBA","WEMA","GTBank","FIRST Bank" ], 
     desc: "Bank spot." 
@@ -609,7 +609,7 @@ export const LOCATIONS = [
     name: "Wild-Life Park",
     lat: 7.296683,
     lng: 5.143315,
-    category: "Landmark",
+    category: "park",
     verified: true,
     aliases: ["futa wild life park" ], 
     desc: "Wild-Life Park." 
@@ -739,7 +739,7 @@ export const LOCATIONS = [
     name: "UBA fire station",
     lat: 7.301600,
     lng: 5.131816,
-    category: "Commercial",
+    category: "security",
     verified: true,
     aliases: ["fire station" ], 
     desc: "UBA Fire Station." 
@@ -839,9 +839,19 @@ export const LOCATIONS = [
     name: "West Gate",
     lat: 7.294049,
     lng: 5.136365,
-    category: "Landmark",
+    category: "Gate",
     verified: true,
     aliases: ["West Gate ENTRY" ], 
     desc: "West Gate." 
+  },
+
+   {
+    name: "FUTASCOPE Female Hostel",
+    lat: 7.301135,
+    lng: 5.143620,
+    category: "Hostel",
+    verified: true,
+    aliases: ["futascope" ], 
+    desc: "Futascope is a Female Hostel around malu road ." 
   },
 ]
