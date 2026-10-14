@@ -42,7 +42,7 @@ export const LOCATIONS = [
     aliases: ["ETF", "ETF building", "FUTA ETF"], 
     desc: "750-seat building." },
 
-    { name: "Lecture Theatre 1" ,
+    { name: "LT 1" ,
     lat: 7.302443,
     lng: 5.135011,
     category: "Lecture Room",
@@ -52,7 +52,7 @@ export const LOCATIONS = [
   },
 
     {
-    name: "Lecture Theatre 2" ,
+    name: "LT 2" ,
     lat: 7.302497,
     lng: 5.134566,
     category: "Lecture Room",
@@ -62,7 +62,7 @@ export const LOCATIONS = [
   },
 
     {
-    name: "LT 2 catering service" ,
+    name: "LT 1 catering service" ,
     lat: 7.302595,
     lng: 5.135086,
     category: "Commercial",
