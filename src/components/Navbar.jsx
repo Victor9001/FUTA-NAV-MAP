@@ -1,19 +1,29 @@
 import { useEffect, useState } from 'react'
-import { Compass, Menu, X } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import {
+  Compass,
+  Map as MapIcon,
+  List,
+  PlusCircle,
+  LogIn,
+  LogOut,
+} from 'lucide-react'
+import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import AuthModal from './AuthModal'
 
 const links = [
-  { label: 'Map', to: '/#map' },
-  { label: 'Directory', to: '/directory' },
-  { label: 'Suggest', to: '/suggest' },
+  { label: 'Map', to: '/#map', icon: MapIcon, isActive: (p) => p === '/' },
+  { label: 'Directory', to: '/directory', icon: List, isActive: (p) => p.startsWith('/directory') },
+  { label: 'Suggest', to: '/suggest', icon: PlusCircle, isActive: (p) => p.startsWith('/suggest') },
 ]
 
 export default function Navbar() {
   const { currentUser, loading, logOut } = useAuth()
   const [showAuth, setShowAuth] = useState(false)
-  const [menuOpen, setMenuOpen] = useState(false)
+  const { pathname } = useLocation()
+
+  const firstName =
+    currentUser?.displayName?.split(' ')[0] || currentUser?.email
 
   useEffect(() => {
     if (loading || currentUser) return
@@ -25,67 +35,35 @@ export default function Navbar() {
   }, [loading, currentUser])
 
   return (
-    <header className="sticky top-0 z-10 border-b border-white/10 bg-ink/90 backdrop-blur">
-      <nav className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-        <div className="flex items-center gap-2">
-          <Compass className="h-5 w-5 text-futa-400" />
-          <span className="font-medium">FUTA Nav</span>
-        </div>
+    <>
+      {/* Top bar: logo on every screen, full links on larger screens */}
+      <header className="sticky top-0 z-10 border-b border-white/10 bg-ink/90 backdrop-blur">
+        <nav className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
+          <div className="flex items-center gap-2">
+            <Compass className="h-5 w-5 text-futa-400" />
+            <span className="font-medium">FUTA Nav</span>
+          </div>
 
-        <ul className="hidden items-center gap-6 text-sm text-white/70 sm:flex">
-          {links.map((link) => (
-            <li key={link.label}>
-              <Link to={link.to} className="transition hover:text-white">
-                {link.label}
-              </Link>
-            </li>
-          ))}
-          {currentUser ? (
-            <li className="flex items-center gap-3">
-              <span className="text-futa-400">{currentUser.displayName?.split(' ')[0] || currentUser.email}</span>
-              <button type="button" onClick={logOut} className="text-white/50 hover:text-white">Sign out</button>
-            </li>
-          ) : (
-            <li>
-              <button
-                type="button"
-                onClick={() => setShowAuth(true)}
-                className="rounded-lg bg-futa-400/20 px-3 py-1.5 text-futa-400"
-              >
-                Sign in
-              </button>
-            </li>
+          {/* Phones: just show who is signed in. Navigation is at the bottom. */}
+          {currentUser && (
+            <span className="max-w-[10rem] truncate text-xs text-futa-400 sm:hidden">
+              {firstName}
+            </span>
           )}
-        </ul>
 
-        <button
-          type="button"
-          onClick={() => setMenuOpen((v) => !v)}
-          className="text-white/70 sm:hidden"
-          aria-label="Toggle menu"
-        >
-          {menuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
-      </nav>
-
-      {menuOpen && (
-        <div className="border-t border-white/10 px-6 py-4 sm:hidden">
-          <ul className="flex flex-col gap-4 text-sm text-white/70">
+          {/* Larger screens: the same links as before */}
+          <ul className="hidden items-center gap-6 text-sm text-white/70 sm:flex">
             {links.map((link) => (
               <li key={link.label}>
-                <Link to={link.to} onClick={() => setMenuOpen(false)} className="transition hover:text-white">
+                <Link to={link.to} className="transition hover:text-white">
                   {link.label}
                 </Link>
               </li>
             ))}
             {currentUser ? (
-              <li className="flex items-center justify-between">
-                <span className="text-futa-400">{currentUser.displayName?.split(' ')[0] || currentUser.email}</span>
-                <button
-                  type="button"
-                  onClick={() => { logOut(); setMenuOpen(false) }}
-                  className="text-white/50 hover:text-white"
-                >
+              <li className="flex items-center gap-3">
+                <span className="text-futa-400">{firstName}</span>
+                <button type="button" onClick={logOut} className="text-white/50 hover:text-white">
                   Sign out
                 </button>
               </li>
@@ -93,7 +71,7 @@ export default function Navbar() {
               <li>
                 <button
                   type="button"
-                  onClick={() => { setShowAuth(true); setMenuOpen(false) }}
+                  onClick={() => setShowAuth(true)}
                   className="rounded-lg bg-futa-400/20 px-3 py-1.5 text-futa-400"
                 >
                   Sign in
@@ -101,10 +79,62 @@ export default function Navbar() {
               </li>
             )}
           </ul>
-        </div>
-      )}
+        </nav>
+      </header>
+
+      {/* Phones only: bottom icon navigation.
+          It sits OUTSIDE the header on purpose. The header uses backdrop-blur,
+          which would stop a fixed element inside it from sticking to the bottom. */}
+      <nav
+        aria-label="Main navigation"
+        className="fixed inset-x-0 bottom-0 z-20 border-t border-white/10 bg-ink/95 backdrop-blur sm:hidden"
+        style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+      >
+        <ul className="mx-auto grid max-w-md grid-cols-4">
+          {links.map(({ label, to, icon: Icon, isActive }) => {
+            const active = isActive(pathname)
+
+            return (
+              <li key={label}>
+                <Link
+                  to={to}
+                  aria-current={active ? 'page' : undefined}
+                  className={`flex flex-col items-center gap-1 py-2.5 text-[11px] transition ${
+                    active ? 'text-futa-400' : 'text-white/60 hover:text-white'
+                  }`}
+                >
+                  <Icon className="h-5 w-5" />
+                  {label}
+                </Link>
+              </li>
+            )
+          })}
+
+          <li>
+            {currentUser ? (
+              <button
+                type="button"
+                onClick={logOut}
+                className="flex w-full flex-col items-center gap-1 py-2.5 text-[11px] text-white/60 transition hover:text-white"
+              >
+                <LogOut className="h-5 w-5" />
+                Sign out
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setShowAuth(true)}
+                className="flex w-full flex-col items-center gap-1 py-2.5 text-[11px] text-futa-400 transition"
+              >
+                <LogIn className="h-5 w-5" />
+                Sign in
+              </button>
+            )}
+          </li>
+        </ul>
+      </nav>
 
       {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
-    </header>
+    </>
   )
 }

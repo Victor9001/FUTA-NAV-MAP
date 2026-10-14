@@ -73,7 +73,7 @@ const CATEGORY_EMOJIS = [
 const CATEGORY_STYLES = {
   landmark: { emoji: '⭐', color: '#f59e0b' },
   admin: { emoji: '🏢', color: '#6366f1' },
-  educational: { emoji: '🎓', color: '#3b82f6' },
+  education: { emoji: '🎓', color: '#3b82f6' },
   commercial: { emoji: '🛒', color: '#ec4899' },
   event: { emoji: '🎉', color: '#f97316' },
   hostel: { emoji: '🏠', color: '#10b981' },
@@ -910,7 +910,11 @@ export default function MapView({
     // No match, or we already routed to this exact place.
     if (!dest || autoRouteDestRef.current === dest) return
 
-    const timer = setTimeout(() => requestRoute(dest), 800)
+    const timer = setTimeout(() => {
+      // The search icon (or a shared link) may already have routed here.
+      if (autoRouteDestRef.current === dest) return
+      requestRoute(dest)
+    }, 800)
 
     // If they keep typing, cancel and wait again.
     return () => clearTimeout(timer)

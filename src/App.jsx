@@ -18,7 +18,7 @@ function PageFallback() {
 export default function App() {
   return (
     <AuthProvider>
-      <div className="flex h-dvh flex-col bg-ink text-white">
+      <div className="flex h-dvh flex-col bg-ink text-white  pb-16 sm:pb-0">
         <Navbar />
         <div className="min-h-0 flex-1 overflow-y-auto">
           <Suspense fallback={<PageFallback />}>
