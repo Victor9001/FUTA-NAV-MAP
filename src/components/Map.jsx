@@ -6,6 +6,7 @@ import lineSlice from '@turf/line-slice'
 import { point, lineString } from '@turf/helpers'
 import { slugify } from '../utils/slug'
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
+import { withTimeout } from '../utils/withTimeout'
 import { db } from '../firebase'
 
 maplibregl.setWorkerUrl(maplibreWorkerUrl)
@@ -338,6 +339,7 @@ export default function MapView({
 
   const [view, setView] = useState('street')
   const [loading, setLoading] = useState(true)
+  const [notice, setNotice] = useState('')
   const [routeError, setRouteError] = useState(null)
   const [routeInfo, setRouteInfo] = useState(null)
   const [routeLoading, setRouteLoading] = useState(false)
@@ -365,6 +367,19 @@ export default function MapView({
     mapRef.current = map
 
     map.on('load', () => setLoading(false))
+
+    map.on('error', (e) => {
+      console.error('Map error:', e.error)
+      if (e.sourceId || !map.isStyleLoaded()) {
+        setNotice('Map is not loading. Check your connection.')
+      }
+    })
+
+    map.on('data', (e) => {
+      if (e.dataType === 'source' && e.tile) {
+        setNotice((n) => (n.startsWith('Map is not') ? '' : n))
+      }
+    })
 
     map.on('style.load', () => {
       if (!map.getSource('route')) {
@@ -412,6 +427,7 @@ export default function MapView({
           }
 
           userLocationRef.current = loc
+           setNotice((n) => (n.startsWith('Location') || n.startsWith('Could not get') ? '' : n))
 
           if (userMarkerRef.current) {
             userMarkerRef.current.setLngLat([loc.lng, loc.lat])
@@ -478,6 +494,12 @@ export default function MapView({
         },
         (err) => {
           console.error('Geolocation failed:', err)
+
+           setNotice(
+            err.code === 1
+              ? 'Location is blocked. Allow location in your browser settings to get directions.'
+              : 'Could not get your location. Check that GPS is on.'
+          )
 
           // Only reject once. A later successful fix will still work
           // because the success handler above does not depend on this.
@@ -829,7 +851,7 @@ export default function MapView({
     setShareLabel('Creating link...')
 
     try {
-      const docRef = await addDoc(
+      const docRef = await withTimeout(addDoc(
         collection(db, 'shares'),
         {
           lat: loc.lat,
@@ -839,7 +861,7 @@ export default function MapView({
           // once you add a TTL policy on "expiresAt" in the console.
           expiresAt: new Date(Date.now() + 30 * 60 * 1000),
         }
-      )
+      ))
 
       const url =
         `${window.location.origin}${window.location.pathname}?share=${docRef.id}`
@@ -849,6 +871,7 @@ export default function MapView({
       setShareLabel('Copied! (expires in 30 min)')
     } catch (err) {
       console.error('Could not create share link:', err)
+       setShareLabel(err.message === 'timeout' ? 'No connection. Try again' : 'Could not share. Try again')
       setShareLabel('Could not create link')
     }
 
@@ -976,6 +999,15 @@ export default function MapView({
           <span className="text-xs text-white/50">
             Loading map…
           </span>
+        </div>
+      )}
+
+      {notice && (
+        <div
+          role="status"
+          className="absolute left-3 right-14 top-3 z-20 rounded-lg border border-amber-400/30 bg-amber-950/90 px-3 py-2 text-xs text-amber-200"
+        >
+          {notice}
         </div>
       )}
 

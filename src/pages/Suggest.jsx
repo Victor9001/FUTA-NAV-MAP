@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
+import { withTimeout } from '../utils/withTimeout'
 import { db } from '../firebase'
 import { useAuth } from '../context/AuthContext'
 import { LOCATIONS } from '../data/locations'
@@ -49,7 +50,7 @@ export default function Suggest() {
     e.preventDefault()
     setStatus('saving')
     try {
-      await addDoc(collection(db, 'suggestions'), {
+      await withTimeout(addDoc(collection(db, 'suggestions'), {
         name,
         category,
         description,
@@ -59,7 +60,7 @@ export default function Suggest() {
         submittedByName: currentUser.displayName || currentUser.email,
         createdAt: serverTimestamp(),
         status: 'pending',
-      })
+      }))
       setStatus('done')
       setName('')
       setDescription('')
@@ -70,7 +71,7 @@ export default function Suggest() {
       console.error('FIRESTORE ERROR:', err)
       console.error('CODE:', err?.code)
       console.error('MESSAGE:', err?.message)
-      setStatus('error')
+          setStatus(err.message === 'timeout' ? 'timeout' : 'error')
     }
   }
 
@@ -161,6 +162,7 @@ export default function Suggest() {
           />
         </div>
         {status === 'error' && <p className="text-xs text-red-400">Something went wrong — try again.</p>}
+        {status === 'timeout' && <p className="text-xs text-red-400">No connection. It may still send when you're back online, so check before resubmitting.</p>}
         <button
           type="submit"
           disabled={status === 'saving'}

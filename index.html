@@ -22,11 +22,14 @@
   #initial-loader{position:fixed;inset:0;z-index:9999;background:#150f24;display:flex;flex-direction:column}
   #initial-loader .sk{background:rgba(255,255,255,.08);border-radius:8px;animation:sk-pulse 1.4s ease-in-out infinite}
   @keyframes sk-pulse{0%,100%{opacity:.5}50%{opacity:1}}
+  #loader-msg .sp{width:28px;height:28px;margin:0 auto 12px;border:3px solid rgba(255,255,255,.15);border-top-color:#9b6cf0;border-radius:50%;animation:sk-spin .8s linear infinite}
+  @keyframes sk-spin{to{transform:rotate(360deg)}}
 </style>
 
   <body>
     <div id="root"></div>
-        <div id="initial-loader" aria-hidden="true">
+        <div id="initial-loader">
+  <div id="loader-msg" role="status" style="position:absolute;left:0;right:0;bottom:40px;padding:0 24px;text-align:center;font:14px -apple-system,'Segoe UI',sans-serif;color:rgba(255,255,255,.75)"></div>
       <div style="height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;border-bottom:1px solid rgba(255,255,255,.1)">
         <div class="sk" style="height:24px;width:112px"></div>
         <div class="sk" style="height:20px;width:160px"></div>
@@ -36,6 +39,39 @@
       </div>
       <div class="sk" style="flex:1;margin:0 16px 16px;border-radius:12px"></div>
     </div>
-    <script type="module" src="/src/main.jsx"></script>
+    
+    <script>
+  (function () {
+    var box = document.getElementById('loader-msg');
+    function alive() { return !!document.getElementById('initial-loader'); }
+    function show(text, retry, spin) {
+      if (!box || !alive()) return;
+      box.textContent = '';
+      if (spin) { var s = document.createElement('div'); s.className = 'sp'; box.appendChild(s); }
+      var p = document.createElement('div');
+      p.textContent = text;
+      box.appendChild(p);
+      if (retry) {
+        var b = document.createElement('button');
+        b.textContent = 'Retry';
+        b.style.cssText = 'margin-top:12px;padding:8px 22px;border:0;border-radius:8px;background:#9b6cf0;color:#fff;font:inherit;font-weight:600;cursor:pointer';
+        b.onclick = function () { location.reload(); };
+        box.appendChild(b);
+      }
+    }
+    function offlineCheck() {
+      if (!navigator.onLine) show('No internet connection. This will load when you reconnect.', true);
+    }
+    window.addEventListener('offline', offlineCheck);
+    window.addEventListener('online', function () { if (alive()) location.reload(); });
+    window.addEventListener('error', function (e) {
+      if (e.target && e.target.tagName === 'SCRIPT') show('Could not load the app. Check your connection.', true);
+    }, true);
+    offlineCheck();
+    setTimeout(function () { if (navigator.onLine) show('Slow connection, still loading…,  false, true'); }, 10000);
+    setTimeout(function () { show('Taking too long. Check your connection and retry.', true); }, 30000);
+  })();
+</script>
+<script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

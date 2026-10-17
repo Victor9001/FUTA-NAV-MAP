@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { LOCATIONS } from '../data/locations'
 import { slugify } from '../utils/slug'
 
+
 export default function Directory() {
   const [query, setQuery] = useState('')
   const [activeCategory, setActiveCategory] = useState('All')
@@ -16,6 +17,7 @@ export default function Directory() {
   })
 
   return (
+    
     <div className="mx-auto max-w-3xl px-6 py-12">
       <h1 className="text-2xl font-medium">Directory</h1>
       <p className="mt-2 text-sm text-white/60">Every building on the map, in one browsable list.</p>
