@@ -5,9 +5,8 @@ import maplibreWorkerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&ur
 import lineSlice from '@turf/line-slice'
 import { point, lineString } from '@turf/helpers'
 import { slugify } from '../utils/slug'
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 import { withTimeout } from '../utils/withTimeout'
-import { db } from '../firebase'
+
 
 maplibregl.setWorkerUrl(maplibreWorkerUrl)
 
@@ -851,6 +850,10 @@ export default function MapView({
     setShareLabel('Creating link...')
 
     try {
+      const [{ addDoc, collection, serverTimestamp }, { db }] = await Promise.all([
+        import('firebase/firestore'),
+        import('../firestore'),
+      ])
       const docRef = await withTimeout(addDoc(
         collection(db, 'shares'),
         {

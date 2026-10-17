@@ -1,7 +1,5 @@
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { doc, getDoc } from 'firebase/firestore'
-import { db } from '../firebase'
 import Hero from '../components/Hero'
 import MapView from '../components/Map'
 import { LOCATIONS } from '../data/locations'
@@ -29,7 +27,8 @@ export default function Home() {
     }
 
     if (share) {
-      getDoc(doc(db, 'shares', share))
+        Promise.all([import('firebase/firestore'), import('../firestore')])
+        .then(([{ doc, getDoc }, { db }]) => getDoc(doc(db, 'shares', share)))
         .then((snap) => {
           if (!snap.exists()) {
             setShareStatus('not-found')

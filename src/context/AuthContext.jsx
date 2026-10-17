@@ -7,6 +7,7 @@ import {
   updateProfile,
 } from 'firebase/auth'
 import { auth } from '../firebase'
+import PageSkeleton from '../components/PageSkeleton'
 
 const AuthContext = createContext(null)
 
@@ -38,7 +39,7 @@ export function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider value={{ currentUser, loading, signUp, signIn, logOut }}>
-      {!loading && children}
+      {loading ? <PageSkeleton /> : children}
     </AuthContext.Provider>
   )
 }

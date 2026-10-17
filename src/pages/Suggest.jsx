@@ -1,7 +1,7 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 import { withTimeout } from '../utils/withTimeout'
-import { db } from '../firebase'
+import { db } from "../firestore";
 import { useAuth } from '../context/AuthContext'
 import { LOCATIONS } from '../data/locations'
 
@@ -35,7 +35,7 @@ export default function Suggest() {
       if (results.length > 0) {
         setLat(results[0].lat)
         setLng(results[0].lon)
-        setGeocodeMsg('Found an approximate location — check it below and adjust if needed.')
+        setGeocodeMsg('Found an approximate location â€” check it below and adjust if needed.')
       } else {
         setGeocodeMsg("Couldn't find it automatically. You can still submit without coordinates.")
       }
@@ -161,7 +161,7 @@ export default function Suggest() {
             className="w-1/2 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm outline-none focus:border-futa-400"
           />
         </div>
-        {status === 'error' && <p className="text-xs text-red-400">Something went wrong — try again.</p>}
+        {status === 'error' && <p className="text-xs text-red-400">Something went wrong â€” try again.</p>}
         {status === 'timeout' && <p className="text-xs text-red-400">No connection. It may still send when you're back online, so check before resubmitting.</p>}
         <button
           type="submit"
