@@ -11,4 +11,6 @@ createRoot(document.getElementById('root')).render(
     </BrowserRouter>
   </StrictMode>,
 )
-document.getElementById('initial-loader')?.remove()
+requestAnimationFrame(() =>
+  requestAnimationFrame(() => document.getElementById('initial-loader')?.remove())
+)

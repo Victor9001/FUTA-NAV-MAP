@@ -1,11 +1,11 @@
-// Add real locations here as you collect coordinates (Google Maps: right-click a spot).
+﻿// Add real locations here as you collect coordinates (Google Maps: right-click a spot).
 export const LOCATIONS = [
   { name: "South Gate",
     lat: 7.293023,
     lng: 5.149893,
     category: "Gate",
     verified: true,
-    aliases: ["South Entrance", " SouthCheck Post", "FUTA South Gate"],
+    aliases: ["South Entrance", " South Check Post", "FUTA South Gate"],
     desc: "Verified campus reference point." },
 
   { name: "Obafemi Awolowo Auditorium",
@@ -29,7 +29,7 @@ export const LOCATIONS = [
   { name: "Albert Ilemobade library ",
     lat: 7.304274,
     lng: 5.134504,
-    category: "library",
+    category: "Library",
     verified: true,
     aliases: ["Ilemobade Library", "The Library", "FUTA Library"], 
     desc: "Verified library with a wide collection of resources." },
@@ -157,7 +157,7 @@ export const LOCATIONS = [
     name: "Shuttle Park" ,
     lat: 7.292949,
     lng: 5.149587,
-    category: "parking",
+    category: "Parking",
     verified: true,
     aliases: ["Southgate Shuttle park" ], 
     desc: "shuttle part at southgate." 
@@ -609,7 +609,7 @@ export const LOCATIONS = [
     name: "Wild-Life Park",
     lat: 7.296683,
     lng: 5.143315,
-    category: "park",
+    category: "Park",
     verified: true,
     aliases: ["futa wild life park" ], 
     desc: "Wild-Life Park." 
@@ -739,7 +739,7 @@ export const LOCATIONS = [
     name: "UBA fire station",
     lat: 7.301600,
     lng: 5.131816,
-    category: "security",
+    category: "Security",
     verified: true,
     aliases: ["fire station" ], 
     desc: "UBA Fire Station." 

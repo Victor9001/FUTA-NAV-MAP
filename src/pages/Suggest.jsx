@@ -169,6 +169,16 @@ export default function Suggest() {
           {status === 'saving' ? 'Submitting...' : 'Submit suggestion'}
         </button>
       </form>
+
+      <p className="mt-8 text-center text-sm text-white/60">
+          Found a wrong pin or a bug?{' '}
+  <a
+    href="mailto:vicshelby804@gmail.com?subject=FUTA%20Nav%20issue"
+    className="text-futa-400 underline"
+       >
+    Report an issue
+  </a>
+   </p>
     </div>
   )
 }
