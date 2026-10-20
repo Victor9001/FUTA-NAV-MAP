@@ -6,6 +6,7 @@ import lineSlice from '@turf/line-slice'
 import { point, lineString } from '@turf/helpers'
 import { slugify } from '../utils/slug'
 import { withTimeout } from '../utils/withTimeout'
+import { searchPlaces } from '../utils/geocode'
 
 
 maplibregl.setWorkerUrl(maplibreWorkerUrl)
@@ -352,6 +353,7 @@ export default function MapView({
   const autoRouteDestRef = useRef(null)
   // Counts route requests so an older, slower answer can't overwrite a newer one.
   const routeRequestRef = useRef(0)
+  const placeMarkerRef = useRef(null)
 
   useEffect(() => {
     const map = new maplibregl.Map({
@@ -923,7 +925,9 @@ export default function MapView({
     const q = query.trim()
 
     // Search box cleared: allow the same place to be routed again later.
-    if (q.length === 0) {
+      if (q.length === 0) {
+      placeMarkerRef.current?.remove()
+      placeMarkerRef.current = null
       autoRouteDestRef.current = null
       return
     }
@@ -950,9 +954,47 @@ export default function MapView({
   useEffect(() => {
     if (searchTrigger === 0) return
 
-    const dest = findLocation(query)
+        const dest = findLocation(query)
 
-    if (dest) requestRoute(dest)
+        if (dest) {
+      placeMarkerRef.current?.remove()
+      placeMarkerRef.current = null
+      requestRoute(dest)
+      return
+    }
+
+    // Not in locations.js: ask OpenStreetMap. Runs only on submit (Nominatim policy).
+    let cancelled = false
+    setNotice('Searching…')
+    searchPlaces(query)
+      .then((results) => {
+        if (cancelled) return
+        const hit = results[0]
+        if (!hit) {
+          setNotice('No place found. Try another name.')
+          setTimeout(() => setNotice((n) => (n.startsWith('No place') ? '' : n)), 4000)
+          return
+        }
+        setNotice('')
+        const map = mapRef.current
+        if (!map) return
+        placeMarkerRef.current?.remove()
+        placeMarkerRef.current = new maplibregl.Marker({ color: '#22c55e' })
+          .setLngLat([hit.lng, hit.lat])
+          .setPopup(
+            new maplibregl.Popup({ offset: 12 }).setText(`${hit.name} (from OpenStreetMap)`)
+          )
+          .addTo(map)
+        map.flyTo({ center: [hit.lng, hit.lat], zoom: 17 })
+        requestRoute({ name: hit.name, lat: hit.lat, lng: hit.lng })
+      })
+      .catch(() => {
+        if (!cancelled) setNotice('Could not search places. Check your connection.')
+      })
+
+    return () => {
+      cancelled = true
+    }
   }, [searchTrigger])
 
   // FIX 2: closing the panel now also removes the blue line
