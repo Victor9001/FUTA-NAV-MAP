@@ -8,6 +8,10 @@ export default defineConfig({
     VitePWA({
       injectRegister: 'script-defer',
       registerType: 'autoUpdate',
+      workbox: {
+        skipWaiting: true,
+        clientsClaim: true,
+      },
       includeAssets: ['icon-192.png', 'icon-512.png'],
       manifest: {
         name: 'FUTA Nav',
