@@ -1,10 +1,11 @@
-﻿import { useState } from 'react'
+﻿import { lazy, Suspense, useState } from 'react'
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 import { withTimeout } from '../utils/withTimeout'
 import { db } from "../firestore";
 import { useAuth } from '../context/AuthContext'
 import { LOCATIONS } from '../data/locations'
 
+const MapPicker = lazy(() => import('../components/MapPicker'));
 const FUTA_VIEWBOX = '5.125,7.315,5.150,7.295'
 
 export default function Suggest() {
@@ -19,6 +20,12 @@ export default function Suggest() {
   const [status, setStatus] = useState('idle')
   const [geocoding, setGeocoding] = useState(false)
   const [geocodeMsg, setGeocodeMsg] = useState('')
+  const latNum = parseFloat(lat)
+  const lngNum = parseFloat(lng)
+  const pin =
+    Number.isFinite(latNum) && Number.isFinite(lngNum)
+      ? { lat: latNum, lng: lngNum }
+      : null
 
   async function findCoordinates() {
     if (!name.trim()) {
@@ -35,7 +42,7 @@ export default function Suggest() {
       if (results.length > 0) {
         setLat(results[0].lat)
         setLng(results[0].lon)
-        setGeocodeMsg('Found an approximate location â€” check it below and adjust if needed.')
+        setGeocodeMsg('Found an approximate location” check it below and adjust if needed.')
       } else {
         setGeocodeMsg("Couldn't find it automatically. You can still submit without coordinates.")
       }
@@ -54,8 +61,8 @@ export default function Suggest() {
         name,
         category,
         description,
-        lat: lat ? parseFloat(lat) : null,
-        lng: lng ? parseFloat(lng) : null,
+        lat: pin ? pin.lat : null,
+        lng: pin ? pin.lng : null,
         submittedByUid: currentUser.uid,
         submittedByName: currentUser.displayName || currentUser.email,
         createdAt: serverTimestamp(),
@@ -145,23 +152,16 @@ export default function Suggest() {
         </button>
         {geocodeMsg && <p className="text-xs text-white/50">{geocodeMsg}</p>}
 
-        <div className="flex gap-3">
-          <input
-            type="text"
-            placeholder="Latitude (optional)"
-            value={lat}
-            onChange={(e) => setLat(e.target.value)}
-            className="w-1/2 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm outline-none focus:border-futa-400"
+        <Suspense fallback={<div className="h-64 w-full animate-pulse rounded-lg bg-white/5" />}>
+          <MapPicker
+            value={pin}
+            onChange={(p) => {
+              setLat(String(p.lat))
+              setLng(String(p.lng))
+            }}
           />
-          <input
-            type="text"
-            placeholder="Longitude (optional)"
-            value={lng}
-            onChange={(e) => setLng(e.target.value)}
-            className="w-1/2 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm outline-none focus:border-futa-400"
-          />
-        </div>
-        {status === 'error' && <p className="text-xs text-red-400">Something went wrong â€” try again.</p>}
+        </Suspense>
+        {status === 'error' && <p className="text-xs text-red-400">Something went wrong” try again.</p>}
         {status === 'timeout' && <p className="text-xs text-red-400">No connection. It may still send when you're back online, so check before resubmitting.</p>}
         <button
           type="submit"

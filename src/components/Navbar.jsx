@@ -6,6 +6,7 @@ import {
   PlusCircle,
   LogIn,
   LogOut,
+  ShieldCheck,
 } from 'lucide-react'
 import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
@@ -17,10 +18,19 @@ const links = [
   { label: 'Suggest', to: '/suggest', icon: PlusCircle, isActive: (p) => p.startsWith('/suggest') },
 ]
 
+const ADMIN_UID = import.meta.env.VITE_ADMIN_UID
+const adminLink = {
+  label: 'Admin',
+  to: '/admin',
+  icon: ShieldCheck,
+  isActive: (p) => p.startsWith('/admin'),
+}
 export default function Navbar() {
   const { currentUser, loading, logOut } = useAuth()
   const [showAuth, setShowAuth] = useState(false)
   const { pathname } = useLocation()
+  const isAdmin = Boolean(ADMIN_UID) && currentUser?.uid === ADMIN_UID
+  const navLinks = isAdmin ? [...links, adminLink] : links
 
   const firstName =
     currentUser?.displayName?.split(' ')[0] || currentUser?.email
@@ -53,7 +63,7 @@ export default function Navbar() {
 
           {/* Larger screens: the same links as before */}
           <ul className="hidden items-center gap-6 text-sm text-white/70 sm:flex">
-            {links.map((link) => (
+            {navLinks.map((link) => (
               <li key={link.label}>
                 <Link to={link.to} className="transition hover:text-white">
                   {link.label}
@@ -90,8 +100,8 @@ export default function Navbar() {
         className="fixed inset-x-0 bottom-0 z-20 border-t border-white/10 bg-ink/95 backdrop-blur sm:hidden"
         style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
       >
-        <ul className="mx-auto grid max-w-md grid-cols-4">
-          {links.map(({ label, to, icon: Icon, isActive }) => {
+        <ul className="mx-auto grid max-w-md" style={{ gridTemplateColumns: 'repeat(' + (navLinks.length + 1) + ', minmax(0, 1fr))' }}>
+          {navLinks.map(({ label, to, icon: Icon, isActive }) => {
             const active = isActive(pathname)
 
             return (
