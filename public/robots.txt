@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /admin
+
+Sitemap: https://futa-nav-map.vercel.app/sitemap.xml
