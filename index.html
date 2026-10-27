@@ -3,19 +3,36 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FUTA Nav</title>
-    <meta name="description" content="Find your way around the Federal University of Technology, Akure — search any building and get real walking directions." />
+    <title>FUTA Nav | FUTA Campus Map and Walking Directions</title>
+    <meta name="description" content="Find your way around the Federal University of Technology, Akure (FUTA). Search any building and get walking directions on the campus map." />
+    <meta name="theme-color" content="#150f24" />
+    <link rel="canonical" href="https://futa-nav-map.vercel.app/" />
 
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="FUTA Nav" />
-    <meta property="og:description" content="Find your way around FUTA — search any building and get real walking directions." />
+    <meta property="og:site_name" content="FUTA Nav" />
+    <meta property="og:locale" content="en_NG" />
+    <meta property="og:title" content="FUTA Nav | FUTA Campus Map and Walking Directions" />
+    <meta property="og:description" content="Find your way around FUTA. Search any building and get real walking directions." />
     <meta property="og:image" content="https://futa-nav-map.vercel.app/og-image.png" />
     <meta property="og:url" content="https://futa-nav-map.vercel.app/" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="FUTA Nav" />
-    <meta name="twitter:description" content="Find your way around FUTA — search any building and get real walking directions." />
+    <meta name="twitter:title" content="FUTA Nav | FUTA Campus Map and Walking Directions" />
+    <meta name="twitter:description" content="Find your way around FUTA. Search any building and get real walking directions." />
     <meta name="twitter:image" content="https://futa-nav-map.vercel.app/og-image.png" />
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "FUTA Nav",
+      "url": "https://futa-nav-map.vercel.app/",
+      "description": "Campus map and walking directions for the Federal University of Technology, Akure (FUTA), Nigeria.",
+      "applicationCategory": "TravelApplication",
+      "operatingSystem": "Any (web browser)",
+      "inLanguage": "en"
+    }
+    </script>
   </head>
   <style>
   html,body{background:#150f24;margin:0}
@@ -30,7 +47,7 @@
     <div id="root"></div>
         <div id="initial-loader">
   <div id="loader-msg" role="status" style="position:absolute;left:0;right:0;bottom:40px;padding:0 24px;text-align:center;font:14px -apple-system,'Segoe UI',sans-serif;color:rgba(255,255,255,.75)"></div>
-      <div style="height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;border-bottom:1px solid rgba(255,255,255,.1)">
+      <div style="height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;border-bottom:1px solid  rgba(255,255,255,.1)">
         <div class="sk" style="height:24px;width:112px"></div>
         <div class="sk" style="height:20px;width:160px"></div>
       </div>
@@ -68,7 +85,7 @@
       if (e.target && e.target.tagName === 'SCRIPT') show('Could not load the app. Check your connection.', true);
     }, true);
     offlineCheck();
-    setTimeout(function () { if (navigator.onLine) show('Slow connection, still loading…,  false, true'); }, 10000);
+    setTimeout(function () { if (navigator.onLine) show('Slow connection, still loading…',  false, true); }, 10000);
     setTimeout(function () { show('Taking too long. Check your connection and retry.', true); }, 30000);
   })();
 </script>
