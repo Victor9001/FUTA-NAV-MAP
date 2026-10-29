@@ -13,7 +13,7 @@ export const LOCATIONS = [
     lng: 5.136791,
     category: "Landmark",
     verified: true,
-    aliases: ["Main Auditorium", "2,500 capacity", "obafemi awolowo hall", ],
+    aliases: ["Main Auditorium", "2,500 capacity", "obafemi awolowo hall","Matriculation hall","" ],
     desc: "Central auditorium for large events."},
 
 
@@ -596,13 +596,53 @@ export const LOCATIONS = [
   },
 
   {
-    name: "Banks here",
-    lat: 7.300929,
-    lng: 5.139509,
+    name: "GTBank",
+    lat: 7.301036,
+    lng: 5.139783,
     category: "Bank",
     verified: true,
-    aliases: ["UBA","WEMA","GTBank","FIRST Bank" ], 
-    desc: "Bank spot." 
+    aliases: ["Guarantee Trust Bank"], 
+    desc: "GTBank." 
+  },
+
+  {
+    name: "UBA Bank",
+    lat: 7.300647,
+    lng: 5.139654,
+    category: "Bank",
+    verified: true,
+    aliases: ["United Bank for Africa" ], 
+    desc: "UBA Bank." 
+  },
+
+  {
+    name: "WEMA Bank",
+    lat: 7.300832,
+    lng: 5.139119,
+    category: "Bank",
+    verified: true,
+    aliases: ["WEMA Bank", ], 
+    desc: "Wema bank." 
+  },
+
+  {
+    name: "FIRST Bank Futa",
+    lat: 7.299900,
+    lng: 5.139012,
+    category: "Bank",
+    verified: true,
+    aliases: ["FIRST Bank" ], 
+    desc: "First bank." 
+  },
+
+  {
+    name: "HERITAGE Bank",
+    lat: 7.300200,
+    lng: 5.139195,
+    category: "Bank",
+    verified: true,
+    aliases: ["heritage Bank" ], 
+    desc: "Heritage bank." 
   },
 
   {
@@ -796,7 +836,7 @@ export const LOCATIONS = [
   },
 
   {
-    name: "Medical classroom2",
+    name: "Medical classroom 2",
     lat: 7.297524,
     lng: 5.132789,
     category: "Lecture Room",
@@ -822,17 +862,17 @@ export const LOCATIONS = [
     category: "Hostel",
     verified: true,
     aliases: ["NEW HOSTEL FEMALE" ], 
-    desc: "AWOSIKA FEMALE HOSTEL." 
+    desc: "IBUKUN AWOSIKA NEW FEMALE HOSTEL." 
   },
 
   {
-    name: "AWOSIKA MALE HOSTEL",
+    name: "ADEBOYE MALE HOSTEL",
     lat: 7.295129,
     lng: 5.135255,
     category: "Hostel",
     verified: true,
-    aliases: ["NEW HOSTEL MALE" ], 
-    desc: "AWOSIKA MALE HOSTEL." 
+    aliases: ["NEW HOSTEL MALE","Pastor E.A Adeboye new male hostel" ], 
+    desc: "Pastor E.A Adeboye new male hostel." 
   },
 
   {
@@ -853,5 +893,175 @@ export const LOCATIONS = [
     verified: true,
     aliases: ["futascope" ], 
     desc: "Futascope is a Female Hostel around malu road ." 
+  },
+
+  {
+    name: "JADESOLA Female Hostel",
+    lat: 7.301850,
+    lng: 5.143784,
+    category: "Hostel",
+    verified: true,
+    aliases: ["jadesola" ], 
+    desc: "Jadesola is a Female Hostel around malu road ." 
+  },
+
+  {
+    name: "JIBOWU ANNEX 1",
+    lat: 7.304617,
+    lng: 5.141869,
+    category: "Hostel",
+    verified: true,
+    aliases: ["JIBOWU ANNEX 1 Female Hostel" ], 
+    desc: "JIBOWU ANNEX 1 is a Female Hostel around malu road ." 
+  },
+
+  {
+    name: "OBA ADESIDA Female Hostel",
+    lat: 7.304271,
+    lng: 5.141381,
+    category: "Hostel",
+    verified: true,
+    aliases: ["OBA ADEBIYI ADESIDA Female Hostel" ], 
+    desc: "OBA ADESIDA is a Female Hostel around malu road ." 
+  },
+
+  {
+    name: "SOC 3in1 A",
+    lat: 7.304226,
+    lng: 5.133130,
+    category: "Lecture Room",
+    verified: true,
+    aliases: ["soc 3in1 a" ], 
+    desc: "School of Computing 3in1 Block." 
+  },
+
+  {
+    name: "SOC 3in1 B",
+    lat: 7.303789,
+    lng: 5.133114,
+    category: "Lecture Room",
+    verified: true,
+    aliases: ["soc 3in1 b" ], 
+    desc: "School of Computing 3in1 Block." 
+  },
+
+  {
+    name: "SOC 3in1 C",
+    lat: 7.303869,
+    lng: 5.133372,
+    category: "Lecture Room",
+    verified: true,
+    aliases: ["soc 3in1 c" ], 
+    desc: "School of Computing 3in1 Block." 
+  },
+
+  {
+    name: "School of Computing",
+    lat: 7.304747,
+    lng: 5.132529,
+    category: "Faculty",
+    verified: true,
+    aliases: ["SOC" ], 
+    desc: "School of Computing Faculty." 
+  },
+
+  {
+    name: "ABIOLA BLOCK 3",
+    lat: 7.302930,
+    lng: 5.142974,
+    category: "Hostel",
+    verified: true,
+    aliases: ["Abiola Hostel" ], 
+    desc: "Abiola Male hostel." 
+  },
+
+  {
+    name: "ABIOLA BLOCK 2",
+    lat: 7.303345,
+    lng: 5.142685,
+    category: "Hostel",
+    verified: true,
+    aliases: ["Abiola Hostel" ], 
+    desc: "Abiola Male hostel." 
+  },
+
+  {
+    name: "ABIOLA BLOCK 1",
+    lat: 7.304356,
+    lng: 5.142245,
+    category: "Hostel",
+    verified: true,
+    aliases: ["Abiola Hostel" ], 
+    desc: "Abiola Male hostel." 
+  },
+
+  {
+    name: "TECH HUB",
+    lat: 7.300706,
+    lng: 5.141097,
+    category: "garden",
+    verified: true,
+    aliases: ["AKure TECH HUB" ], 
+    desc: "AKURE TECH HUB FUTA." 
+  },
+
+  {
+    name: "CRS",
+    lat: 7.304557,
+    lng: 5.135012,
+    category: "Admin",
+    verified: true,
+    aliases: ["Software studies laboratory" ], 
+    desc: "CRS BLOCK." 
+  },
+
+  {
+    name: "CACCF",
+    lat: 7.293828,
+    lng: 5.152031,
+    category: "chapel",
+    verified: true,
+    aliases: ["Christ Apostolic Church" ], 
+    desc: "Christ Apostolic Church, peace avenue,SOUTHGATE." 
+  },
+
+  {
+    name: "CCF NIFES",
+    lat: 7.309038,
+    lng: 5.140205,
+    category: "chapel",
+    verified: true,
+    aliases: ["NIFES" ], 
+    desc:"NIFES, NORTHGATE"
+  },
+
+  {
+    name: "RCF FUTA",
+    lat: 7.292972,
+    lng: 5.154348,
+    category: "chapel",
+    verified: true,
+    aliases: ["rcf futa" ], 
+    desc: "REDEEM CHURCH FELLOWSHIP, PEACE AVENUE, SOUTHGATE." 
+  },
+
+  {
+    name: "FUTA Staff Secondary School",
+    lat: 7.293887,
+    lng: 5.149349,
+    category: "school",
+    verified: true,
+    aliases: ["futa Staff Secondary School" ], 
+    desc: "FUTA Staff Secondary School,southgate." 
+  },
+
+  {
+    name: "Directorate of Physical Planning",
+    lat: 7.301074,
+    lng: 5.138692,
+    category: "Admin",
+    verified: true,
+    aliases: ["directorate of physical planning" ], 
+    desc: "Directorate of Physical Planning." 
   },
 ]
