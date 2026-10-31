@@ -13,7 +13,7 @@ export const LOCATIONS = [
     lng: 5.136791,
     category: "Landmark",
     verified: true,
-    aliases: ["Main Auditorium", "2,500 capacity", "obafemi awolowo hall","Matriculation hall","" ],
+    aliases: ["Main Auditorium", "2,500 capacity", "obafemi awolowo hall","Matriculation hall","Orientation" ],
     desc: "Central auditorium for large events."},
 
 

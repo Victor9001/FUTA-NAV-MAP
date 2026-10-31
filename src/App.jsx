@@ -4,6 +4,7 @@ import { Routes, Route, useLocation } from 'react-router-dom'
 import ErrorBoundary from './components/ErrorBoundary'
 import { AuthProvider } from './context/AuthContext'
 import Navbar from './components/Navbar'
+import Footer from './components/Footer'
 
 const Home = lazy(() => import('./pages/Home'))
 const Directory = lazy(() => import('./pages/Directory'))
@@ -13,6 +14,7 @@ const Admin = lazy(() => import('./pages/Admin'))
 
 export default function App() {
   const location = useLocation()
+  const showFooter = location.pathname === '/directory' || location.pathname === '/suggest'
   return (
     <AuthProvider>
       <div className="flex h-dvh flex-col bg-ink text-white  pb-16 sm:pb-0">
@@ -28,6 +30,7 @@ export default function App() {
             </Routes>
           </Suspense>
           </ErrorBoundary>
+              {showFooter && <Footer />}
         </div>
       </div>
     </AuthProvider>
