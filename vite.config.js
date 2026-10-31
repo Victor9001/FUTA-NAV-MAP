@@ -17,8 +17,8 @@ export default defineConfig({
         name: 'FUTA Nav',
         short_name: 'FUTA Nav',
         description: 'Campus navigator for the Federal University of Technology, Akure.',
-        theme_color: '#150f24',
-        background_color: '#150f24',
+        theme_color: '#000000',
+        background_color: '#000000',
         display: 'standalone',
         start_url: '/',
         icons: [

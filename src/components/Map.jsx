@@ -8,6 +8,22 @@ import { slugify } from '../utils/slug'
 import { withTimeout } from '../utils/withTimeout'
 import { searchPlaces } from '../utils/geocode'
 
+// Official-road via-point. OSM has an unofficial bush path between
+// South Gate and SPS, so routes crossing this stretch are steered through here.
+const VIA_POINT = { lat: 7.302165, lng: 5.140006 }
+
+function viaCoords(start, dest) {
+  const south = start.lat < 7.3012 && dest.lat < 7.3012
+  const crossesWest = start.lng > VIA_POINT.lng && dest.lng < VIA_POINT.lng
+  const crossesEast = start.lng < VIA_POINT.lng && dest.lng > VIA_POINT.lng
+  const startPart = start.lng + ',' + start.lat
+  const destPart = dest.lng + ',' + dest.lat
+  if (south && (crossesWest || crossesEast)) {
+    return startPart + ';' + VIA_POINT.lng + ',' + VIA_POINT.lat + ';' + destPart
+  }
+  return startPart + ';' + destPart
+}
+
 
 maplibregl.setWorkerUrl(maplibreWorkerUrl)
 
@@ -542,7 +558,7 @@ export default function MapView({
         // "driving" is the OSRM-compatible profile name on this endpoint.
         const url =
           `https://routing.openstreetmap.de/routed-foot/route/v1/driving/` +
-          `${userLoc.lng},${userLoc.lat};${dest.lng},${dest.lat}` +
+                    viaCoords(userLoc, dest) +
           '?overview=full&geometries=geojson'
 
         const res = await fetch(url)
