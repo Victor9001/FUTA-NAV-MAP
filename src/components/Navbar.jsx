@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import {
-  Compass,
   Map as MapIcon,
   List,
   PlusCircle,
@@ -11,6 +10,7 @@ import {
 import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import AuthModal from './AuthModal'
+import AnchorLogo from './AnchorLogo'
 
 const links = [
   { label: 'Map', to: '/#map', icon: MapIcon, isActive: (p) => p === '/' },
@@ -50,7 +50,7 @@ export default function Navbar() {
       <header className="sticky top-0 z-10 border-b border-white/10 bg-ink/90 backdrop-blur">
         <nav className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
           <div className="flex items-center gap-2">
-            <Compass className="h-5 w-5 text-futa-400" />
+            <AnchorLogo size={26} className="text-futa-400" />
             <span className="font-medium">FUTA Nav</span>
           </div>
 

@@ -1,6 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
+import { Eye, EyeOff } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
+
+const inputClass =
+  'w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm font-medium text-white placeholder:text-white/40 outline-none focus:border-futa-400'
 
 export default function AuthModal({ onClose }) {
   const { signUp, signIn } = useAuth()
@@ -8,6 +12,7 @@ export default function AuthModal({ onClose }) {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
   const firstFieldRef = useRef(null)
@@ -40,49 +45,67 @@ export default function AuthModal({ onClose }) {
   }
 
   return createPortal(
-    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/60 px-4 py-8" onClick={onClose}>
-        <div
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/60 px-4 py-8"
+      onClick={onClose}
+    >
+      <div
         role="dialog"
         aria-modal="true"
         aria-labelledby="auth-modal-title"
         className="w-full max-w-sm rounded-xl border border-white/10 bg-ink p-6"
         onClick={(e) => e.stopPropagation()}
       >
-        <h2 id="auth-modal-title" className="text-lg font-medium">{mode === 'signup' ? 'Create an account' : 'Sign in'}</h2>
+        <h2 id="auth-modal-title" className="text-lg font-medium">
+          {mode === 'signup' ? 'Create an account' : 'Sign in'}
+        </h2>
         <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-3">
           {mode === 'signup' && (
             <input
               type="text"
               placeholder="Name"
+              autoComplete="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-              className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm outline-none focus:border-futa-400"
+              className={inputClass}
             />
           )}
           <input
             ref={firstFieldRef}
             type="email"
             placeholder="Email"
+            autoComplete="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm outline-none focus:border-futa-400"
+            className={inputClass}
           />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            minLength={6}
-            className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm outline-none focus:border-futa-400"
-          />
+          <div className="relative">
+            <input
+              type={showPassword ? 'text' : 'password'}
+              placeholder="Password"
+              autoComplete={mode === 'signup' ? 'new-password' : 'current-password'}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              minLength={6}
+              className={inputClass + ' pr-10'}
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              aria-label={showPassword ? 'Hide password' : 'Show password'}
+              className="absolute inset-y-0 right-0 flex items-center px-3 text-white/60 hover:text-white"
+            >
+              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
+          </div>
           {error && <p className="text-xs text-red-400">{error}</p>}
           <button
             type="submit"
             disabled={busy}
-            className="rounded-lg bg-futa-400 py-2 text-sm font-medium text-ink disabled:opacity-60"
+            className="rounded-lg bg-futa-400 py-2 text-sm font-medium text-white disabled:opacity-60"
           >
             {busy ? 'Please wait...' : mode === 'signup' ? 'Sign up' : 'Sign in'}
           </button>
