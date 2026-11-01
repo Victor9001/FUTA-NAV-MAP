@@ -89,18 +89,18 @@ const CATEGORY_EMOJIS = [
 // "Educational" matches "education" and "Laboratory" matches "lab".
 const CATEGORY_STYLES = {
   landmark: { emoji: '⭐', color: '#f59e0b' },
-  admin: { emoji: '🏢', color: '#6366f1' },
+  admin: { emoji: '🏢', color: '#64748b' },
   education: { emoji: '🎓', color: '#3b82f6' },
   commercial: { emoji: '🛒', color: '#ec4899' },
   event: { emoji: '🎉', color: '#f97316' },
   hostel: { emoji: '🏠', color: '#10b981' },
   agricultural: { emoji: '🌾', color: '#84cc16' },
-  religious: { emoji: '🙏', color: '#a855f7' },
+  religious: { emoji: '🙏', color: '#e2e8f0' },
   lab: { emoji: '🔬', color: '#06b6d4' },
   health: { emoji: '🏥', color: '#ef4444' },
   food: { emoji: '🍽️', color: '#eab308' },
   sport: { emoji: '⚽', color: '#14b8a6' },
-  faculty: { emoji: '🏛️', color: '#8b5cf6' },
+  faculty: { emoji: '🏛️', color: '#38bdf8' },
 }
 
 const DEFAULT_COLOR = '#94a3b8'
@@ -172,7 +172,7 @@ function buildPopup(loc, onDirections) {
   const shareBtn = document.createElement('button')
   shareBtn.textContent = 'Share'
   shareBtn.style.cssText =
-    'font-size:12px;color:#9b6cf0;background:rgba(155,108,240,.15);border:none;padding:6px 10px;border-radius:6px;cursor:pointer'
+    'font-size:12px;color:#1d9bf0;background:rgba(29,155,240,.15);border:none;padding:6px 10px;border-radius:6px;cursor:pointer'
 
   shareBtn.addEventListener('click', async () => {
     const url = `${window.location.origin}${window.location.pathname}?to=${slugify(loc.name)}`

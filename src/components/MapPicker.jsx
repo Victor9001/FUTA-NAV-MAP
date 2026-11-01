@@ -24,7 +24,7 @@ export default function MapPicker({ value, onChange }) {
     const map = mapRef.current
     if (!map) return
     if (!markerRef.current) {
-      const m = new maplibregl.Marker({ color: '#9b6cf0', draggable: true })
+      const m = new maplibregl.Marker({ color: '#1d9bf0', draggable: true })
         .setLngLat([lng, lat])
         .addTo(map)
       m.on('dragend', () => {
