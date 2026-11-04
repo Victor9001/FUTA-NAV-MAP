@@ -8,6 +8,26 @@ import { slugify } from '../utils/slug'
 import { withTimeout } from '../utils/withTimeout'
 import { searchPlaces } from '../utils/geocode'
 
+// North Gate: OSM has no walkable link from the road outside (Yobel Road)
+// to the gate, so the router sends people round through South Gate.
+// For people just north of the gate we draw the short walk ourselves and
+// ask the router only for the part from the gate onward.
+const NORTH_GATE = { lat: 7.306661, lng: 5.139635 }
+
+function metersBetween(a, b) {
+  const dLat = (b.lat - a.lat) * 111320
+  const dLng = (b.lng - a.lng) * 111320 * Math.cos((a.lat * Math.PI) / 180)
+  return Math.sqrt(dLat * dLat + dLng * dLng)
+}
+
+function northGateEntry(start, dest) {
+  const outsideNorth = start.lat > NORTH_GATE.lat + 0.0002
+  const close = metersBetween(start, NORTH_GATE) < 500
+  const destInside = dest.lat < NORTH_GATE.lat
+  if (outsideNorth && close && destInside) return NORTH_GATE
+  return null
+}
+
 // Official-road via-point. OSM has an unofficial bush path between
 // South Gate and SPS, so routes crossing this stretch are steered through here.
 const VIA_POINT = { lat: 7.302165, lng: 5.140006 }
@@ -556,9 +576,12 @@ export default function MapView({
 
         // The routed-foot server uses its configured pedestrian graph.
         // "driving" is the OSRM-compatible profile name on this endpoint.
+        const entryPt = northGateEntry(userLoc, dest)
+        const startPt = entryPt || userLoc
+        const entryMeters = entryPt ? metersBetween(userLoc, entryPt) : 0
         const url =
           `https://routing.openstreetmap.de/routed-foot/route/v1/driving/` +
-                    viaCoords(userLoc, dest) +
+                    viaCoords(startPt, dest) +
           '?overview=full&geometries=geojson'
 
         const res = await fetch(url)
@@ -584,6 +607,11 @@ export default function MapView({
           )
         }
 
+        if (entryPt) {
+          route.geometry.coordinates = [[userLoc.lng, userLoc.lat]].concat(route.geometry.coordinates)
+          route.distance = route.distance + entryMeters
+          route.duration = route.duration + entryMeters / 1.3
+        }
         fullRouteRef.current = route.geometry.coordinates
         destPointRef.current = point([dest.lng, dest.lat])
 
