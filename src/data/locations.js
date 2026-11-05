@@ -1064,4 +1064,54 @@ export const LOCATIONS = [
     aliases: ["directorate of physical planning" ], 
     desc: "Directorate of Physical Planning." 
   },
+
+  {
+    name: "Multipurpose Hall",
+    lat: 7.307408,
+    lng: 5.135042,
+    category: "events",
+    verified: true,
+    aliases: ["Multipurpose" ], 
+    desc:"Multipurpose Hall"
+  },
+
+  {
+    name: "Chapel of Faith",
+    lat: 7.306041,
+    lng: 5.133481,
+    category: "chapel",
+    verified: true,
+    aliases: ["jccf" ], 
+    desc:"old Chapel of Faith"
+  },
+
+  {
+    name: "JCCF",
+    lat: 7.306307,
+    lng: 5.133475,
+    category: "chapel",
+    verified: true,
+    aliases: ["Chapel of faith","jccf" ], 
+    desc:"new Chapel of faith building"
+  },
+
+  {
+    name: "CCE Building",
+    lat: 7.304562,
+    lng: 5.135431,
+    category: "chapel",
+    verified: true,
+    aliases: ["CCE Building" ], 
+    desc:"CCE Building"
+  },
+
+   {
+    name: "st. Albert Catholic Church",
+    lat: 7.306365,
+    lng: 5.134462,
+    category: "chaple",
+    verified: true,
+    aliases: ["Catholic Church"], 
+    desc:"st. Albert Catholic Church building"
+  },
 ]
