@@ -1,6 +1,6 @@
 const OPERATOR = 'Victor (FUTA Nav)'
 const CONTACT = 'vicshelby804@gmail.com'
-const UPDATED = '5 November 2026'
+const UPDATED = '7 November 2026'
 
 function Part({ children }) {
   return <h3 className="mt-6 text-sm font-semibold text-white first:mt-0">{children}</h3>
@@ -149,6 +149,7 @@ export default function TermsText() {
           'Account details: your name, your email address and your password. Passwords are handled by Google Firebase Authentication and we cannot read them.',
           'Your live location: your phone or browser shares it with the app, with your permission, to draw routes. It is used in your browser and sent to the routing service. We do not save it unless you create a share link or submit a suggestion with a pin.',
           'Share links: the location you choose to share and when the link was made.',
+          'Visit statistics: we use a privacy-focused visit counter to count visits, with the page, country and type of device and browser. It does not use cookies or follow you across other sites.',
           'Suggestions and reports: the details you type, any map pin, your name and account ID, and the time you sent them.',
           'Technical data: your IP address and device and browser details, which hosting and map services receive as part of normal web traffic.',
           'On your device: a small setting that remembers we have shown you the sign-up prompt, and saved copies of app files so the app loads faster and works on slow connections.',
@@ -170,6 +171,7 @@ export default function TermsText() {
         items={[
           'Google Firebase, which stores accounts and the database (suggestions, reports and share links).',
           'Vercel, which hosts the app.',
+          'A privacy-focused analytics service, which counts visits to the app.',
           'Map, routing and search services such as OpenStreetMap routing and search, OpenFreeMap and Esri satellite imagery. These receive the coordinates or search text needed to give you a route, a place or a map tile, together with your IP address.',
           'Authorities, only where the law requires us to share data.',
         ]}
