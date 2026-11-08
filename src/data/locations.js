@@ -561,7 +561,7 @@ export const LOCATIONS = [
     lng: 5.134107,
     category: "Lecture Room",
     verified: true,
-    aliases: ["Old 3in1 Lecture Theatre" ], 
+    aliases: ["Old 3in1a","old 3in1A" ], 
     desc: "Old 3in1 Lecture Theatre." 
   },
 
@@ -571,7 +571,7 @@ export const LOCATIONS = [
     lng: 5.133795,
     category: "Lecture Room",
     verified: true,
-    aliases: ["Old 3in1 Lecture Theatre" ], 
+    aliases: ["Old 3in1b","old 3in1B" ], 
     desc: "Old 3in1 Lecture Theatre." 
   },
 
@@ -581,7 +581,7 @@ export const LOCATIONS = [
     lng: 5.133790,
     category: "Lecture Room",
     verified: true,
-    aliases: ["Old 3in1 Lecture Theatre" ], 
+    aliases: ["Old 3in1c","old 3in1C" ], 
     desc: "Old 3in1 Lecture Theatre." 
   },
 
@@ -592,7 +592,7 @@ export const LOCATIONS = [
     category: "Admin",
     verified: true,
     aliases: ["Mathemetics office" ], 
-    desc: "Old 3in1 Lecture Theatre." 
+    desc: "Mathemetics office." 
   },
 
   {
