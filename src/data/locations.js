@@ -556,12 +556,42 @@ export const LOCATIONS = [
   },
 
   {
-    name: "Old 3in1 Lt",
-    lat: 7.301131,
-    lng: 5.133844,
+    name: "Old 3in1 A Lt",
+    lat: 7.301155,
+    lng: 5.134107,
     category: "Lecture Room",
     verified: true,
     aliases: ["Old 3in1 Lecture Theatre" ], 
+    desc: "Old 3in1 Lecture Theatre." 
+  },
+
+  {
+    name: "Old 3in1 B Lt",
+    lat: 7.301310,
+    lng: 5.133795,
+    category: "Lecture Room",
+    verified: true,
+    aliases: ["Old 3in1 Lecture Theatre" ], 
+    desc: "Old 3in1 Lecture Theatre." 
+  },
+
+  {
+    name: "Old 3in1 C Lt",
+    lat: 7.300884,
+    lng: 5.133790,
+    category: "Lecture Room",
+    verified: true,
+    aliases: ["Old 3in1 Lecture Theatre" ], 
+    desc: "Old 3in1 Lecture Theatre." 
+  },
+
+  {
+    name: "Mathematics Office",
+    lat: 7.301283,
+    lng: 5.134749,
+    category: "Admin",
+    verified: true,
+    aliases: ["Mathemetics office" ], 
     desc: "Old 3in1 Lecture Theatre." 
   },
 
@@ -1006,7 +1036,7 @@ export const LOCATIONS = [
   },
 
   {
-    name: "CRS",
+    name: "CRC",
     lat: 7.304557,
     lng: 5.135012,
     category: "Admin",
