@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext'
 
 // The long text loads only when someone opens it, so the app starts as fast as before.
 const TermsText = lazy(() => import('./TermsText'))
+import { authMessage } from '../utils/authMessage'
 
 const inputClass =
   'w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm font-medium text-white placeholder:text-white/40 outline-none focus:border-futa-400'
@@ -47,7 +48,7 @@ export default function AuthModal({ onClose }) {
       }
       onClose()
     } catch (err) {
-      setError(err.message.replace('Firebase: ', ''))
+       setError(authMessage(err))
     } finally {
       setBusy(false)
     }
