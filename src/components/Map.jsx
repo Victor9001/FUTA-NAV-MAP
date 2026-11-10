@@ -534,9 +534,11 @@ export default function MapView({
 
            setNotice(
             err.code === 1
-              ? 'Location is blocked. Allow location in your browser settings to get directions.'
-              : 'Could not get your location. Check that GPS is on.'
+              ? 'Location is off or blocked. Turn on your phone location and allow it for this site.'
+              : 'Could not get your location. Turn on GPS and try again, or search a building.'
           )
+
+          setTimeout(() => setNotice((n) => (n.startsWith('Location is off') || n.startsWith('Could not get') ? '' : n)), 6000)
 
           // Only reject once. A later successful fix will still work
           // because the success handler above does not depend on this.
