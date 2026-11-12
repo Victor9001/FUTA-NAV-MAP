@@ -5,7 +5,7 @@ export const LOCATIONS = [
     lng: 5.149893,
     category: "Gate",
     verified: true,
-    aliases: ["South Entrance", " South Check Post", "FUTA South Gate", "southgate"],
+    aliases: ["South Entrance", " South Check Post", "FUTA South Gate", "southgate","south-gate"],
     desc: "Verified campus reference point." },
 
   { name: "Obafemi Awolowo Auditorium",
@@ -194,7 +194,7 @@ export const LOCATIONS = [
   },
 
   {
-    name: "Southgate Mosque" ,
+    name: "South gate Mosque" ,
     lat: 7.295130,
     lng: 5.148873,
     category: "Mosque",
