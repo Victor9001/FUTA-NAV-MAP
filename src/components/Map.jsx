@@ -399,7 +399,7 @@ export default function MapView({
       zoom: 16,
     })
 
-    map.addControl(new maplibregl.NavigationControl(), 'top-right')
+    map.addControl(new maplibregl.NavigationControl(), 'bottom-left')
 
     mapRef.current = map
 
@@ -1096,7 +1096,7 @@ export default function MapView({
       {notice && (
         <div
           role="status"
-          className="absolute left-3 right-14 top-3 z-20 rounded-lg border border-amber-400/30 bg-amber-950/90 px-3 py-2 text-xs text-amber-200"
+          className="absolute left-3 right-3 top-24 z-20 rounded-lg border border-amber-400/30 bg-amber-950/90 px-3 py-2 text-xs text-amber-200"
         >
           {notice}
         </div>
