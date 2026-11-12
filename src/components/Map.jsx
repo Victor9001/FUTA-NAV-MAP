@@ -949,6 +949,34 @@ export default function MapView({
 
   // Find the location that matches the search text (name or aliases).
   function findLocation(text) {
+    const squash = (s) => String(s).toLowerCase().replace(/[^a-z0-9]/g, '')
+    const q = squash(text)
+    if (!q) return null
+    const here = userLocationRef.current
+    let best = null
+    let bestScore = 99
+    let bestDist = Infinity
+    for (const loc of locations) {
+      const name = squash(loc.name)
+      const aliases = (loc.aliases || []).map(squash)
+      let score = 99
+      if (name === q) score = 0
+      else if (aliases.includes(q)) score = 1
+      else if (name.startsWith(q)) score = 2
+      else if (name.includes(q)) score = 3
+      else if (aliases.some((a) => a.includes(q))) score = 4
+      if (score === 99) continue
+      const dist = here ? metersBetween(here, loc) : 0
+      if (score < bestScore || (score === bestScore && dist < bestDist)) {
+        best = loc
+        bestScore = score
+        bestDist = dist
+      }
+    }
+    return best
+  }
+
+  function findLocationMid(text) {
     const q = text.trim().toLowerCase()
     if (!q) return null
     const here = userLocationRef.current

@@ -194,7 +194,7 @@ export const LOCATIONS = [
   },
 
   {
-    name: "South gate Mosque" ,
+    name: "Southgate Mosque" ,
     lat: 7.295130,
     lng: 5.148873,
     category: "Mosque",
