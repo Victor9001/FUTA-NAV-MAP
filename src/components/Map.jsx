@@ -364,6 +364,10 @@ export default function MapView({
   const markersRef = useRef([])
   const userMarkerRef = useRef(null)
   const userLocationRef = useRef(null)
+  const manualStartRef = useRef(null)
+  const gpsLocRef = useRef(null)
+  const lastDestRef = useRef(null)
+  const [startName, setStartName] = useState('')
 
   const routeDataRef = useRef(EMPTY_ROUTE)
 
@@ -463,6 +467,12 @@ export default function MapView({
             lng: pos.coords.longitude,
           }
 
+          gpsLocRef.current = loc
+          if (!settled) {
+            settled = true
+            settleFirstFix.resolve(loc)
+          }
+          if (manualStartRef.current) return
           userLocationRef.current = loc
            setNotice((n) => (n.startsWith('Location') || n.startsWith('Could not get') ? '' : n))
 
@@ -472,7 +482,12 @@ export default function MapView({
             const el = document.createElement('div')
 
             el.className =
-              'h-4 w-4 rounded-full border-2 border-white shadow bg-futa-400'
+              'relative h-4 w-4 rounded-full border-2 border-white shadow bg-futa-400'
+
+            const tag = document.createElement('span')
+            tag.textContent = '\u{1F9D1} Me'
+            tag.className = 'pointer-events-none absolute bottom-full left-1/2 mb-1 -translate-x-1/2 whitespace-nowrap rounded-full bg-black/80 px-2 py-0.5 text-[11px] font-semibold text-white'
+            el.appendChild(tag)
 
             userMarkerRef.current = new maplibregl.Marker({
               element: el,
@@ -563,6 +578,7 @@ export default function MapView({
 
     // Calculate a pedestrian route and show its time and distance.
     async function showRoute(dest) {
+      lastDestRef.current = dest
       const requestId = ++routeRequestRef.current
 
       setRouteLoading(true)
@@ -934,6 +950,33 @@ export default function MapView({
   // Find the location that matches the search text (name or aliases).
   function findLocation(text) {
     const q = text.trim().toLowerCase()
+    if (!q) return null
+    const here = userLocationRef.current
+    let best = null
+    let bestScore = 99
+    let bestDist = Infinity
+    for (const loc of locations) {
+      const name = loc.name.toLowerCase()
+      const aliases = (loc.aliases || []).map((a) => a.trim().toLowerCase())
+      let score = 99
+      if (name === q) score = 0
+      else if (name.startsWith(q)) score = 1
+      else if (name.includes(q)) score = 2
+      else if (aliases.includes(q)) score = 3
+      else if ([name, ...aliases].join(' ').includes(q)) score = 4
+      if (score === 99) continue
+      const dist = here ? metersBetween(here, loc) : 0
+      if (score < bestScore || (score === bestScore && dist < bestDist)) {
+        best = loc
+        bestScore = score
+        bestDist = dist
+      }
+    }
+    return best
+  }
+
+  function findLocationOld(text) {
+    const q = text.trim().toLowerCase()
 
     if (!q) return null
 
@@ -1045,6 +1088,28 @@ export default function MapView({
 
   // FIX 2: closing the panel now also removes the blue line
   // and stops it from being trimmed in the background.
+  function chooseStart(name) {
+    const place = name ? locations.find((l) => l.name === name) : null
+
+    if (place) {
+      const loc = { lat: place.lat, lng: place.lng }
+      manualStartRef.current = loc
+      userLocationRef.current = loc
+      setStartName(place.name)
+    } else {
+      manualStartRef.current = null
+      userLocationRef.current = gpsLocRef.current
+      setStartName('')
+    }
+
+    if (routeInfo && lastDestRef.current && showRouteRef.current) {
+      showRouteRef.current(lastDestRef.current).catch((err) => {
+        console.error('Re-route failed:', err)
+        setRouteError('Could not calculate a walking route. Try again.')
+      })
+    }
+  }
+
   function clearRoute() {
     fullRouteRef.current = null
     destPointRef.current = null
@@ -1096,7 +1161,7 @@ export default function MapView({
       {notice && (
         <div
           role="status"
-          className="absolute left-3 right-3 top-24 z-20 rounded-lg border border-amber-400/30 bg-amber-950/90 px-3 py-2 text-xs text-amber-200"
+          className="absolute left-3 right-3 top-36 z-20 rounded-lg border border-amber-400/30 bg-amber-950/90 px-3 py-2 text-xs text-amber-200"
         >
           {notice}
         </div>
@@ -1147,7 +1212,7 @@ export default function MapView({
       {routeInfo && (
         <section
           aria-label="Walking directions"
-          className="absolute bottom-3 right-3 z-10 w-[min(21rem,calc(100%-1.5rem))] rounded-xl border border-white/10 bg-ink/95 p-4 text-white shadow-xl backdrop-blur"
+          className="absolute bottom-3 right-3 z-10 w-[min(16rem,calc(100%-1.5rem))] rounded-xl border border-white/10 bg-ink/95 p-3 text-white shadow-xl backdrop-blur"
         >
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0">
@@ -1170,13 +1235,13 @@ export default function MapView({
             </button>
           </div>
 
-          <div className="mt-4 grid grid-cols-2 gap-3">
+          <div className="mt-2 grid grid-cols-2 gap-2">
             <div className="rounded-lg bg-white/5 p-3">
               <p className="text-xs text-white/50">
                 Estimated time
               </p>
 
-              <p className="mt-1 text-2xl font-bold text-futa-400">
+              <p className="text-lg font-bold text-futa-400">
                 {routeInfo.duration < 60
                   ? '<1 min'
                   : `${Math.ceil(routeInfo.duration / 60)} min`}
@@ -1188,7 +1253,7 @@ export default function MapView({
                 Distance
               </p>
 
-              <p className="mt-1 text-2xl font-bold">
+              <p className="text-lg font-bold">
                 {routeInfo.distance >= 1000
                   ? `${(routeInfo.distance / 1000).toFixed(2)} km`
                   : `${Math.round(routeInfo.distance)} m`}
@@ -1196,7 +1261,7 @@ export default function MapView({
             </div>
           </div>
 
-          <p className="mt-3 text-[10px] text-white/40">
+          <p className="mt-2 text-[10px] text-white/40">
             Estimates only · Routing by OpenStreetMap contributors
           </p>
         </section>
@@ -1207,6 +1272,25 @@ export default function MapView({
           Calculating walking route…
         </div>
       )}
+
+      {/* Choose where you are (works without GPS) */}
+      <select
+        aria-label="I'm at"
+        value={startName}
+        onChange={(e) => chooseStart(e.target.value)}
+        className={`absolute left-3 top-24 z-10 max-w-[11rem] rounded-lg border px-2 py-1.5 text-xs ${
+          startName
+            ? 'border-futa-400 bg-futa-400/20 text-futa-400'
+            : 'border-white/10 bg-ink/90 text-white/60'
+        }`}
+      >
+        <option value="">{startName ? 'Use my GPS' : "I'm at..."}</option>
+        {locations.map((l) => (
+          <option key={l.name} value={l.name}>
+            {l.name}
+          </option>
+        ))}
+      </select>
 
       {/* Share current location */}
       <button

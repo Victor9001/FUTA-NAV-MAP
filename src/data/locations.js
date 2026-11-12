@@ -5,7 +5,7 @@ export const LOCATIONS = [
     lng: 5.149893,
     category: "Gate",
     verified: true,
-    aliases: ["South Entrance", " South Check Post", "FUTA South Gate"],
+    aliases: ["South Entrance", " South Check Post", "FUTA South Gate", "southgate"],
     desc: "Verified campus reference point." },
 
   { name: "Obafemi Awolowo Auditorium",
@@ -826,23 +826,23 @@ export const LOCATIONS = [
   },
 
   {
-    name: "3in1 A",
+    name: "3in1 B",
     lat: 7.298130,
     lng: 5.132406,
     category: "Lecture Room",
     verified: true,
-    aliases: ["3in1 A block lt" ], 
-    desc: "3in1 A block." 
+    aliases: ["3in1 B block lt" ], 
+    desc: "3in1 B block." 
   },
 
   {
-    name: "3in1 B",
+    name: "3in1 A",
     lat: 7.298152,
     lng: 5.132047,
     category: "Lecture Room",
     verified: true,
-    aliases: ["3in1 B lt" ], 
-    desc: "3in1 B." 
+    aliases: ["3in1 A lt" ], 
+    desc: "3in1 A block." 
   },
 
   {
@@ -852,7 +852,7 @@ export const LOCATIONS = [
     category: "Lecture Room",
     verified: true,
     aliases: ["3in1 C Lt" ], 
-    desc: "3in1 C." 
+    desc: "3in1 C block." 
   },
 
   {
@@ -1101,7 +1101,7 @@ export const LOCATIONS = [
     lng: 5.135042,
     category: "events",
     verified: true,
-    aliases: ["Multipurpose" ], 
+    aliases: ["Multi-purpose" ], 
     desc:"Multipurpose Hall"
   },
 
