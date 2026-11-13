@@ -1,3 +1,15 @@
+# FUTA Nav
+
+Campus navigator for the Federal University of Technology, Akure (FUTA), Nigeria.
+
+Live site: https://futanav.site
+
+Search a building, see it on the map, and get a walking route. Routes are estimates, so use your own judgement on the ground.
+
+Built with React, Vite, Tailwind, MapLibre and Firebase.
+
+---
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
