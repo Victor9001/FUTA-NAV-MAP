@@ -4,6 +4,7 @@ import './index.css'
 import { BrowserRouter } from 'react-router-dom'
 import App from './App.jsx'
 import ErrorBoundary from './components/ErrorBoundary'
+import { Analytics } from '@vercel/analytics/react'
 
 if ('serviceWorker' in navigator) {
   const hadController = !!navigator.serviceWorker.controller
@@ -32,6 +33,7 @@ createRoot(document.getElementById('root')).render(
       <div className="h-dvh bg-ink text-white">
         <ErrorBoundary>
           <App />
+           <Analytics />
         </ErrorBoundary>
       </div>
     </BrowserRouter>

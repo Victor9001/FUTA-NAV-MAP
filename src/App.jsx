@@ -6,6 +6,7 @@ import { AuthProvider } from './context/AuthContext'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 
+
 const Home = lazy(() => import('./pages/Home'))
 const Directory = lazy(() => import('./pages/Directory'))
 const Suggest = lazy(() => import('./pages/Suggest'))
