@@ -26,6 +26,20 @@ export default function Home() {
       return
     }
 
+    const latParam = Number(params.get('lat'))
+    const lngParam = Number(params.get('lng'))
+    if (
+      params.get('lat') &&
+      params.get('lng') &&
+      Number.isFinite(latParam) &&
+      Number.isFinite(lngParam) &&
+      latParam >= 7.2 && latParam <= 7.4 &&
+      lngParam >= 5.05 && lngParam <= 5.25
+    ) {
+      setSharedLocation({ lat: latParam, lng: lngParam, name: 'Event location' })
+      return
+    }
+
     if (share) {
         Promise.all([import('firebase/firestore'), import('../firestore')])
         .then(([{ doc, getDoc }, { db }]) => getDoc(doc(db, 'shares', share)))

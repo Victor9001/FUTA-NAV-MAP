@@ -6,6 +6,9 @@ import {
   LogIn,
   LogOut,
   ShieldCheck,
+  CalendarDays,
+  Menu as MenuIcon,
+  X,
 } from 'lucide-react'
 import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
@@ -16,6 +19,7 @@ const links = [
   { label: 'Map', to: '/#map', icon: MapIcon, isActive: (p) => p === '/' },
   { label: 'Directory', to: '/directory', icon: List, isActive: (p) => p.startsWith('/directory') },
   { label: 'Suggest', to: '/suggest', icon: PlusCircle, isActive: (p) => p.startsWith('/suggest') },
+  { label: 'Events', to: '/events', icon: CalendarDays, isActive: (p) => p.startsWith('/events') },
 ]
 
 const ADMIN_UID = import.meta.env.VITE_ADMIN_UID
@@ -28,9 +32,18 @@ const adminLink = {
 export default function Navbar() {
   const { currentUser, loading, logOut } = useAuth()
   const [showAuth, setShowAuth] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
   const { pathname } = useLocation()
   const isAdmin = Boolean(ADMIN_UID) && currentUser?.uid === ADMIN_UID
   const navLinks = isAdmin ? [...links, adminLink] : links
+
+  const barLinks = links.filter((l) => l.label === 'Map' || l.label === 'Events')
+  const menuLinks = navLinks.filter((l) => l.label !== 'Map' && l.label !== 'Events')
+  const menuActive = menuLinks.some((l) => l.isActive(pathname))
+
+  useEffect(() => {
+    setMenuOpen(false)
+  }, [pathname])
 
   const firstName =
     currentUser?.displayName?.split(' ')[0] || currentUser?.email
@@ -100,8 +113,8 @@ export default function Navbar() {
         className="fixed inset-x-0 bottom-0 z-20 border-t border-white/10 bg-ink/95 backdrop-blur sm:hidden"
         style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
       >
-        <ul className="mx-auto grid max-w-md" style={{ gridTemplateColumns: 'repeat(' + (navLinks.length + 1) + ', minmax(0, 1fr))' }}>
-          {navLinks.map(({ label, to, icon: Icon, isActive }) => {
+        <ul className="mx-auto grid max-w-md" style={{ gridTemplateColumns: 'repeat(' + 3 + ', minmax(0, 1fr))' }}>
+          {barLinks.map(({ label, to, icon: Icon, isActive }) => {
             const active = isActive(pathname)
 
             return (
@@ -120,12 +133,52 @@ export default function Navbar() {
             )
           })}
 
-          <li>
+            <li>
+            <button
+              type="button"
+              onClick={() => setMenuOpen((o) => !o)}
+              aria-expanded={menuOpen}
+              aria-haspopup="menu"
+              className={'flex w-full flex-col items-center gap-1 py-2.5 text-[11px] transition ' + (menuOpen || menuActive ? 'text-futa-400' : 'text-white/60 hover:text-white')}
+            >
+              {menuOpen ? <X className="h-5 w-5" /> : <MenuIcon className="h-5 w-5" />}
+              Menu
+            </button>
+          </li>
+        </ul>
+      </nav>
+
+      {menuOpen && (
+        <>
+          <button
+            type="button"
+            aria-label="Close menu"
+            onClick={() => setMenuOpen(false)}
+            className="fixed inset-0 z-10 cursor-default sm:hidden"
+          />
+          <div
+            role="menu"
+            className="fixed right-3 z-20 w-56 overflow-hidden rounded-xl border border-white/10 bg-ink/95 text-sm shadow-lg backdrop-blur sm:hidden"
+            style={{ bottom: 'calc(env(safe-area-inset-bottom) + 3.75rem)' }}
+          >
+            {menuLinks.map(({ label, to, icon: Icon, isActive }) => (
+              <Link
+                key={label}
+                to={to}
+                role="menuitem"
+                className={'flex items-center gap-3 px-4 py-3 transition ' + (isActive(pathname) ? 'text-futa-400' : 'text-white/80 hover:text-white')}
+              >
+                <Icon className="h-5 w-5" />
+                {label}
+              </Link>
+            ))}
+            <div className="border-t border-white/10" />
             {currentUser ? (
               <button
                 type="button"
-                onClick={logOut}
-                className="flex w-full flex-col items-center gap-1 py-2.5 text-[11px] text-white/60 transition hover:text-white"
+                role="menuitem"
+                onClick={() => { setMenuOpen(false); logOut() }}
+                className="flex w-full items-center gap-3 px-4 py-3 text-white/80 transition hover:text-white"
               >
                 <LogOut className="h-5 w-5" />
                 Sign out
@@ -133,16 +186,17 @@ export default function Navbar() {
             ) : (
               <button
                 type="button"
-                onClick={() => setShowAuth(true)}
-                className="flex w-full flex-col items-center gap-1 py-2.5 text-[11px] text-futa-400 transition"
+                role="menuitem"
+                onClick={() => { setMenuOpen(false); setShowAuth(true) }}
+                className="flex w-full items-center gap-3 px-4 py-3 text-futa-400 transition"
               >
                 <LogIn className="h-5 w-5" />
                 Sign in
               </button>
             )}
-          </li>
-        </ul>
-      </nav>
+          </div>
+        </>
+      )}
 
       {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
     </>

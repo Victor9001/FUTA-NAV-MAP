@@ -885,7 +885,7 @@ export default function MapView({
     showRouteRef.current({
       lat: sharedLocation.lat,
       lng: sharedLocation.lng,
-      name: 'Shared location',
+      name: sharedLocation.name || 'Shared location',
     }).catch((err) => {
       console.error('Directions request failed:', err)
 

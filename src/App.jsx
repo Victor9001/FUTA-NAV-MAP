@@ -11,6 +11,7 @@ const Home = lazy(() => import('./pages/Home'))
 const Directory = lazy(() => import('./pages/Directory'))
 const Suggest = lazy(() => import('./pages/Suggest'))
 const Admin = lazy(() => import('./pages/Admin'))
+const Events = lazy(() => import('./pages/Events'))
 
 
 export default function App() {
@@ -28,6 +29,7 @@ export default function App() {
               <Route path="/directory" element={<Directory />} />
               <Route path="/suggest" element={<Suggest />} />
               <Route path="/admin" element={<Admin />} />
+              <Route path="/events" element={<Events />} />
             </Routes>
           </Suspense>
           </ErrorBoundary>
