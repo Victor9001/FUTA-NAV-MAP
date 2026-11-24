@@ -44,7 +44,7 @@ export default function MapPicker({ value, onChange }) {
       container: box.current,
       style: 'https://tiles.openfreemap.org/styles/bright',
       center: value ? [value.lng, value.lat] : CENTER,
-      zoom: value ? 18 : 15,
+      zoom: value ? 18 : 12,
     })
     mapRef.current = map
     map.on('click', (e) => place(e.lngLat.lng, e.lngLat.lat, false))

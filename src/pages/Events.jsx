@@ -17,6 +17,7 @@ import {
 import { db } from '../firestore'
 import { useAuth } from '../context/AuthContext'
 import { withTimeout } from '../utils/withTimeout'
+import { uploadEventImage } from '../utils/uploadImage'
 
 const MapPicker = lazy(() => import('../components/MapPicker'))
 
@@ -55,16 +56,33 @@ function toList(snap) {
 
 function EventCard({ ev, isAdmin, onApprove, onReject, onDelete, note }) {
   return (
-    <li className="rounded-xl border border-white/10 bg-ink/95 p-4">
-      <h3 className="text-base font-semibold">{ev.title}</h3>
-      <p className="mt-1 text-sm text-futa-400">{fmtWhen(ev.startsAt)}</p>
-      <p className="mt-1 text-sm text-white/70">{ev.locationNote}</p>
-      {ev.details && <p className="mt-2 text-sm text-white/60">{ev.details}</p>}
+    <li className="space-y-3 border-y border-white/10 py-4">
+      <div className="flex items-start justify-between gap-3">
+        <h3 className="text-[17px] font-bold leading-snug">{ev.title}</h3>
+        <p className="max-w-[45%] shrink-0 text-right text-xs font-medium leading-snug text-futa-400">{fmtWhen(ev.startsAt)}</p>
+      </div>
+      <p className="text-sm text-white/60">{ev.locationNote}</p>
+      {ev.details && <p className="mt-3 whitespace-pre-line text-[15px] font-medium leading-relaxed text-white/90">{ev.details}</p>}
+      {ev.imageUrl && (
+        <a
+          href={ev.imageUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-3 block overflow-hidden rounded-2xl border border-white/10 bg-black"
+        >
+          <img
+            src={ev.imageUrl}
+            alt={ev.title}
+            loading="lazy"
+            className="mx-auto h-auto max-h-[70vh] w-full object-contain"
+          />
+        </a>
+      )}
       {note && <p className="mt-2 text-xs text-amber-300">{note}</p>}
       <div className="mt-3 flex flex-wrap items-center gap-3">
         <Link
           to={'/?lat=' + ev.lat + '&lng=' + ev.lng}
-          className="rounded-lg bg-futa-400/20 px-3 py-1.5 text-sm text-futa-400"
+          className="block w-full rounded-lg bg-futa-400 py-2.5 text-center text-sm font-medium text-ink"
         >
           Get directions
         </Link>
@@ -117,6 +135,7 @@ export default function Events() {
   const [form, setForm] = useState(EMPTY)
   const [pin, setPin] = useState(null)
   const [pickerKey, setPickerKey] = useState(0)
+  const [photo, setPhoto] = useState(null)
   const [msg, setMsg] = useState('')
   const [saving, setSaving] = useState(false)
 
@@ -176,12 +195,12 @@ export default function Events() {
     const start = new Date(form.when)
 
     if (title.length < 3) return setMsg('Add a title of at least 3 characters.')
-    if (!form.when || Number.isNaN(start.getTime())) return setMsg('Pick the date and time.')
+    if (!form.when || Number.isNaN(start.getTime())) return setMsg('Pick the date and time of the event itself.')
     if (start.getTime() < Date.now() + 60000) return setMsg('Pick a time in the future.')
     if (start.getTime() > Date.now() + 170 * DAY_MS) return setMsg('Pick a date within the next 5 months.')
     if (!pin) return setMsg('Tap the map to drop a pin where it is happening.')
     if (pin.lat < BOX.latMin || pin.lat > BOX.latMax || pin.lng < BOX.lngMin || pin.lng > BOX.lngMax) {
-      return setMsg('The pin must be on or near campus.')
+      return setMsg('The pin must be in the Akure area.')
     }
     if (note.length < 3) return setMsg('Describe the spot, for example: behind the main auditorium.')
 
@@ -200,10 +219,12 @@ export default function Events() {
         createdAt: serverTimestamp(),
       }
       if (details) data.details = details
+      if (photo) data.imageUrl = await uploadEventImage(photo)
       await withTimeout(addDoc(collection(db, 'events'), data))
       setForm(EMPTY)
       setPin(null)
       setPickerKey((k) => k + 1)
+      setPhoto(null)
       setShowForm(false)
       setMsg('Sent. It will show after it is approved.')
       await load()
@@ -211,6 +232,8 @@ export default function Events() {
       console.error('Event submit failed:', err)
       setMsg(err && err.message === 'timeout'
         ? 'No connection. It may still send, so check before sending again.'
+        : err && err.message === 'type' ? 'That photo type is not supported. Use JPG, PNG or WebP.'
+        : err && err.message === 'big' ? 'That photo is over 10 MB. Pick a smaller one.'
         : 'Could not send. Try again.')
     } finally {
       setSaving(false)
@@ -248,9 +271,9 @@ export default function Events() {
     <div className="mx-auto max-w-2xl px-6 py-10">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <h1 className="text-xl font-semibold">Events at FUTA</h1>
+          <h1 className="text-xl font-semibold">Events for Futarians</h1>
           <p className="mt-1 text-sm text-white/60">
-            Upcoming events on campus. Tap Get directions to see how to get there.
+            On campus and around Akure. Tap Get directions to find the place.
           </p>
         </div>
         {hasEvents && !showForm && (
@@ -288,6 +311,9 @@ export default function Events() {
             </p>
           ) : (
             <form onSubmit={submit} className="mt-3 flex flex-col gap-3">
+              <p className="text-sm text-white/60">
+                For fellow Futarians, on campus or around Akure: church programs, parties, club nights, tech meetups and more. We check every event before it shows.
+              </p>
               <label className="text-sm text-white/70">
                 Event name
                 <input
@@ -298,7 +324,8 @@ export default function Events() {
                 />
               </label>
               <label className="text-sm text-white/70">
-                Date and time
+                Date and time of the event itself
+                <span className="block text-xs text-white/40">Not the posting date. The event disappears 1 day after.</span>
                 <input
                   type="datetime-local"
                   className={field}
@@ -320,6 +347,16 @@ export default function Events() {
               <Suspense fallback={<div className="h-64 w-full animate-pulse rounded-lg bg-white/5" />}>
                 <MapPicker key={pickerKey} value={pin} onChange={setPin} />
               </Suspense>
+              <label className="text-sm text-white/70">
+                Photo (optional)
+                <input
+                  key={pickerKey}
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  className="mt-1 block w-full text-sm text-white/70"
+                  onChange={(e) => setPhoto(e.target.files && e.target.files[0] ? e.target.files[0] : null)}
+                />
+              </label>
               <label className="text-sm text-white/70">
                 More details (optional)
                 <textarea
