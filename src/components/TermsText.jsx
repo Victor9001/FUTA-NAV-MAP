@@ -1,6 +1,6 @@
 const OPERATOR = 'Victor (FUTA Nav)'
 const CONTACT = 'vicshelby804@gmail.com'
-const UPDATED = '7 November 2026'
+const UPDATED = '25 November 2026'
 
 function Part({ children }) {
   return <h3 className="mt-6 text-sm font-semibold text-white first:mt-0">{children}</h3>
@@ -65,6 +65,8 @@ export default function TermsText() {
           "Share another person's location, or any personal information, without their knowledge and permission.",
           'Try to break into, overload, scrape or interfere with the app, its data or its servers.',
           'Use the app for anything unlawful, or in a way that harms other people.',
+          'Submit an event that is fake, misleading or a scam (for example fake tickets), or that contains hate, harassment or adult content.',
+          "Upload a flyer or photo that you do not have the right to use, or that shows other people's faces, phone numbers or personal details without their permission.",
         ]}
       />
 
@@ -74,7 +76,7 @@ export default function TermsText() {
         shortcuts, and they may be unsafe, closed, private or out of date. Use your own judgment,
         follow signs, security instructions and the law, and do not use the app while driving.
         FUTA Nav is not an emergency service. In an emergency, contact campus security or the
-        emergency services.
+        emergency services. Events are organised by other people, not by FUTA Nav. Attending an event is at your own risk. Meet in public places, and be careful before paying anyone for tickets or entry.
       </P>
 
       <H>6. Sharing your location</H>
@@ -84,18 +86,18 @@ export default function TermsText() {
         you are responsible for who you send them to.
       </P>
 
-      <H>7. Suggestions and reports you send us</H>
+      <H>7. Suggestions, reports and events you send us</H>
       <P>
         When you suggest a place or report a problem, you give us permission to use, review, edit,
         publish or reject it as part of running the app. You promise that what you send is accurate
         to the best of your knowledge and does not break anyone's rights. We are not obliged to
-        publish any suggestion.
+        publish any suggestion or event. Anyone signed in can submit an event, in or around Akure. We check every event before it is shown, but a check does not mean the event is real, safe, legal or as described, and we can reject or remove any event at any time without notice. Enter the date and time of the event itself, not the date you post it. Events disappear from the list one day after they happen. If you upload a flyer, you promise you have the right to use it. FUTA Nav does not organise, sell tickets for, endorse or insure any event.
       </P>
 
       <H>8. Map data and other services</H>
       <P>
         Map data is © OpenStreetMap contributors and is available under the Open Database Licence.
-        FUTA Nav also relies on services run by other companies, such as Google Firebase, Vercel,
+        FUTA Nav also relies on services run by other companies, such as Google Firebase, Vercel, Cloudinary (which stores event flyers),
         and map, routing and search providers. We do not control them and are not responsible for
         their availability or accuracy.
       </P>
@@ -117,7 +119,7 @@ export default function TermsText() {
       <H>11. Ending your use</H>
       <P>
         You can stop using FUTA Nav at any time. To have your account deleted, email us at the
-        address below from the email on your account.
+        address below from the email on your account. You can delete your own events from the Events page. To have an uploaded flyer image removed as well, email us the event name and date.
       </P>
 
       <H>12. Changes to these terms</H>
@@ -151,6 +153,7 @@ export default function TermsText() {
           'Share links: the location you choose to share and when the link was made.',
           'Visit statistics: we use a privacy-focused visit counter to count visits, with the page, country and type of device and browser. It does not use cookies or follow you across other sites.',
           'Suggestions and reports: the details you type, any map pin, your name and account ID, and the time you sent them.',
+          'Events: the title, date and time, description of the place, details, map pin and optional flyer image you submit, plus your account ID and when you sent it. Approved events and flyers are public and can be seen by anyone, including people who are not signed in. A flyer can contain personal data, so upload only what you have the right to share.',
           'Technical data: your IP address and device and browser details, which hosting and map services receive as part of normal web traffic.',
           'On your device: a small setting that remembers we have shown you the sign-up prompt, and saved copies of app files so the app loads faster and works on slow connections.',
         ]}
@@ -171,6 +174,7 @@ export default function TermsText() {
         items={[
           'Google Firebase, which stores accounts and the database (suggestions, reports and share links).',
           'Vercel, which hosts the app.',
+          'Cloudinary, which stores and delivers event flyer images. It receives the image and your IP address. We resize your flyer in your browser before it is uploaded.',
           'A privacy-focused analytics service, which counts visits to the app.',
           'Map, routing and search services such as OpenStreetMap routing and search, OpenFreeMap and Esri satellite imagery. These receive the coordinates or search text needed to give you a route, a place or a map tile, together with your IP address.',
           'Authorities, only where the law requires us to share data.',
@@ -190,7 +194,7 @@ export default function TermsText() {
         We keep account details until you ask us to delete your account. Suggestions and reports
         are kept while we review them and as records of the changes made to the map. Share links
         stop working shortly after you create them, but the stored location record may stay in our
-        database until we remove it. You can ask us to delete any of it.
+        database until we remove it. Events disappear from the public list one day after the event, but the record and any flyer image may stay in our database and on Cloudinary until we remove them. You can delete your own events from the Events page, which does not remove the flyer image from Cloudinary. Email us to have an event or a flyer deleted. You can ask us to delete any of it.
       </P>
 
       <H>7. Your rights</H>
