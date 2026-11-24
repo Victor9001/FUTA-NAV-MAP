@@ -372,7 +372,12 @@ export default function Events() {
                 disabled={saving}
                 className="rounded-lg bg-futa-400 py-2 text-sm font-medium text-ink disabled:opacity-60"
               >
-                {saving ? 'Sending...' : 'Send for approval'}
+                {saving ? (
+                  <span className="inline-flex items-center justify-center gap-2">
+                    <span className="h-4 w-4 animate-spin rounded-full border-2 border-black/30 border-t-black" />
+                    Sending...
+                  </span>
+                ) : 'Send for approval'}
               </button>
             </form>
           )}
@@ -380,7 +385,11 @@ export default function Events() {
         </section>
       )}
 
-      {status === 'loading' && <p className="mt-6 text-sm text-white/50">Loading...</p>}
+      {status === 'loading' && (
+        <div role="status" aria-label="Loading events" className="mt-10 flex justify-center">
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-white/15 border-t-futa-400" />
+        </div>
+      )}
       {status === 'error' && (
         <p className="mt-6 text-sm text-red-400">Could not load events. Try again in a moment.</p>
       )}
