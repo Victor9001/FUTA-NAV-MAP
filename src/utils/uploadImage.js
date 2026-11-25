@@ -2,7 +2,6 @@ const CLOUD = 'devlubz8'
 const PRESET = 'futanav_events'
 const MAX_SIDE = 1600
 const MAX_INPUT_BYTES = 10 * 1024 * 1024
-const TYPES = ['image/jpeg', 'image/png', 'image/webp']
 
 function toBlob(canvas) {
   return new Promise((resolve, reject) => {
@@ -16,7 +15,7 @@ function toBlob(canvas) {
 
 export async function uploadEventImage(file) {
   if (!file) throw new Error('nofile')
-  if (!TYPES.includes(file.type)) throw new Error('type')
+  if (file.type && file.type.indexOf('image/') !== 0) throw new Error('type')
   if (file.size > MAX_INPUT_BYTES) throw new Error('big')
 
   let bitmap

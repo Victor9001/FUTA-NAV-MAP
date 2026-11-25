@@ -232,7 +232,7 @@ export default function Events() {
       console.error('Event submit failed:', err)
       setMsg(err && err.message === 'timeout'
         ? 'No connection. It may still send, so check before sending again.'
-        : err && err.message === 'type' ? 'That photo type is not supported. Use JPG, PNG or WebP.'
+        : err && err.message === 'type' ? 'That photo could not be read. Try a JPG or PNG, or take a screenshot of it and use that.'
         : err && err.message === 'big' ? 'That photo is over 10 MB. Pick a smaller one.'
         : 'Could not send. Try again.')
     } finally {
@@ -352,7 +352,7 @@ export default function Events() {
                 <input
                   key={pickerKey}
                   type="file"
-                  accept="image/jpeg,image/png,image/webp"
+                  accept="image/*"
                   className="mt-1 block w-full text-sm text-white/70"
                   onChange={(e) => setPhoto(e.target.files && e.target.files[0] ? e.target.files[0] : null)}
                 />
