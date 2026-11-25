@@ -121,6 +121,8 @@ function EventCard({ ev, isAdmin, onApprove, onReject, onDelete, note }) {
   )
 }
 
+const createdMs = (ev) => (ev.createdAt && ev.createdAt.toMillis ? ev.createdAt.toMillis() : 0)
+
 export default function Events() {
   const { currentUser, loading: authLoading } = useAuth()
   const uid = currentUser ? currentUser.uid : null
@@ -157,9 +159,9 @@ export default function Events() {
           query(col, where('submittedByUid', '==', uid), limit(20))
         )
       }
-      setApproved(toList(approvedSnap).sort((a, b) => startMs(a) - startMs(b)))
-      setPending(toList(pendingSnap).sort((a, b) => startMs(a) - startMs(b)))
-      setMine(toList(mineSnap).sort((a, b) => startMs(a) - startMs(b)))
+      setApproved(toList(approvedSnap).sort((a, b) => createdMs(b) - createdMs(a)))
+      setPending(toList(pendingSnap).sort((a, b) => createdMs(b) - createdMs(a)))
+      setMine(toList(mineSnap).sort((a, b) => createdMs(b) - createdMs(a)))
       setStatus('ready')
     } catch (err) {
       console.error('Events load failed:', err)
