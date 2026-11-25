@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { MapPin } from 'lucide-react'
 import * as maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url'
@@ -44,7 +45,7 @@ export default function MapPicker({ value, onChange }) {
       container: box.current,
       style: 'https://tiles.openfreemap.org/styles/bright',
       center: value ? [value.lng, value.lat] : CENTER,
-      zoom: value ? 18 : 12,
+      zoom: value ? 18 : 16,
     })
     mapRef.current = map
     map.on('click', (e) => place(e.lngLat.lng, e.lngLat.lat, false))
@@ -76,16 +77,17 @@ export default function MapPicker({ value, onChange }) {
   return (
     <div>
       <div ref={box} className="h-64 w-full overflow-hidden rounded-lg border border-white/10" />
-      <div className="mt-2 flex items-center justify-between gap-2 text-xs">
+      <div className="mt-2 flex flex-col gap-2 text-xs">
         <button
           type="button"
           onClick={useMyLocation}
-          className="rounded border border-futa-400/50 px-3 py-1 text-futa-400"
+          className="flex w-full items-center justify-center gap-2 rounded-lg bg-futa-400 py-2.5 text-sm font-medium text-ink"
         >
+          <MapPin className="h-4 w-4" />
           I am at this place now
         </button>
         <span className="text-white/60">
-          {value ? 'Pin set. Drag it to adjust.' : 'Tap the map to drop a pin.'}
+          {value ? 'Pin set. Drag it to adjust.' : 'Tap the map to drop a pin. For events off campus, drag or zoom out.'}
         </span>
       </div>
       {msg && <p role="status" className="mt-1 text-xs text-amber-300">{msg}</p>}
