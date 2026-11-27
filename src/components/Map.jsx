@@ -630,11 +630,23 @@ export default function MapView({
           route.distance = route.distance + entryMeters
           route.duration = route.duration + entryMeters / 1.3
         }
+        
+        const straightMeters = metersBetween(userLoc, dest)
+        let approx = false
+        if (straightMeters < 2000 && route.distance > straightMeters * 3 + 500) {
+          route.geometry = {
+            type: 'LineString',
+            coordinates: [[userLoc.lng, userLoc.lat], [dest.lng, dest.lat]],
+          }
+          route.distance = straightMeters
+          route.duration = straightMeters / 1.3
+          approx = true
+        }
         fullRouteRef.current = route.geometry.coordinates
         destPointRef.current = point([dest.lng, dest.lat])
 
         setRouteInfo({
-          destination: dest.name || 'Selected destination',
+          estination: (dest.name || 'Selected destination') + (approx ? ' (approximate, no mapped road found)' : ''),
           duration: route.duration,
           distance: route.distance,
         })
